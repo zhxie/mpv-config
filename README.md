@@ -39,4 +39,4 @@ You can add your own shader to, or modify shaders on shaders/, and you can find 
 ## License
 mpv meets the license GPLv2 or LGPLv2.1, see https://github.com/mpv-player/mpv/blob/master/Copyright for more.
 
-For scripts and shaders, please refer to the file, the update file or the repository in the update file in scripts/ and shaders/.
+For scripts and shaders, please refer to the file, the readme or the repository in the readme in scripts/ and shaders/.
