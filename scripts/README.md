@@ -11,9 +11,6 @@ https://github.com/wiiaboo/mpv-scripts/blob/master/auto-profiles.lua
 ### Last Update
 2018-08-22
 
-### Note
-This script is modified by Sketch.
-
 ### License
 MIT (https://github.com/wiiaboo/mpv-scripts/blob/master/LICENSE)
 
@@ -31,7 +28,15 @@ https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autocrop.lua
 https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autoload.lua
 
 ### Last Update
-2019-02-13
+2019-04-05
+
+### Note
+This script is modified by Sketch.
+
+### Change
+Support more formats.
+
+Disable autoload on complete to make sure the script only runs once.
 
 ## autosave
 
@@ -61,6 +66,9 @@ MIT (https://github.com/dya-tel/mpv-scripts/blob/master/LICENSE)
 ### Note
 This script is modified by Sketch.
 
+### Change
+Resume playback if it is playing before blackout.
+
 ## boss-key
 
 ### Author
@@ -84,13 +92,16 @@ occivink
 https://github.com/occivink/mpv-scripts/blob/master/scripts/crop.lua
 
 ### Last Update
-2018-04-04
+2019-04-05
 
 ### License
 GPLv2 (https://github.com/occivink/mpv-scripts/blob/master/LICENSE)
 
 ### Note
 This script is modified by Sketch.
+
+### Change
+Use lavfi instead of crop to be more robustic for easyencode.
 
 ## customize-playing-msg
 
@@ -216,16 +227,18 @@ GPLv3 (https://github.com/TheAMM/mpv_thumbnail_script/blob/master/LICENSE)
 ### Note
 This script is modified by Sketch.
 
+### Change
+Modify layout.
+
+Add condition for thumbnail generating to avoid performance degradation.
+
 ## ontop-playback
 
 ### Repository
 https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/ontop-playback.lua
 
 ### Last Update
-2017-11-04
-
-### Note
-This script is modified by Sketch.
+2015-03-24
 
 ## open-file-dialog
 
@@ -247,10 +260,7 @@ torque
 https://gist.github.com/torque/9dbc69543118347d2e5f43239a7e609a
 
 ### Last Update
-2018-06-09
-
-### Note
-This script is modified by Sketch.
+2018-04-29
 
 ## pause-when-minimize
 
@@ -269,10 +279,13 @@ jonniek
 https://github.com/jonniek/mpv-playlistmanager
 
 ### Last Update
-2018-03-22
+2019-04-05
 
 ### Note
 This script is modified by Sketch.
+
+### Change
+Instead of set_osd_ass, use osd_message to be more robustic, especially with easyencode and stats.
 
 ## quick-scale
 
@@ -311,13 +324,10 @@ Eisa01
 https://github.com/Eisa01/mpv-scripts#smartcopypaste-script
 
 ### Last Update
-2019-01-16
+2019-01-29
 
 ### License
 MIT (https://github.com/Eisa01/mpv-scripts/blob/master/LICENSE)
-
-### Note
-This script is modified by Sketch.
 
 ## speed-transition
 
@@ -328,13 +338,10 @@ zenyd
 https://github.com/zenyd/mpv-scripts/blob/master/speed-transition.lua
 
 ### Last Update
-2017-10-02
+2019-03-06
 
 ### License
 GPLv3 (https://github.com/zenyd/mpv-scripts/blob/master/LICENSE)
-
-### Note
-This script is modified by Sketch.
 
 ## stats
 
@@ -352,6 +359,11 @@ LGPLv2.1 (https://github.com/Argon-/mpv-stats/blob/master/LICENSE)
 
 ### Note
 This script is modified by Sketch.
+
+### Change
+Display more information and change layout.
+
+Instead of set_osd_ass, use osd_message to be more robustic, especially with easyencode and playlistmanager.
 
 ## timelogger
 

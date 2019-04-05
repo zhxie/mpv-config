@@ -170,7 +170,10 @@ function draw_shade(ass, unshaded, video)
     ass:append("{\\bord0}")
     ass:append("{\\shad0}")
     ass:append("{\\c&H000000&}")
-    ass:append("{\\alpha&H" .. opts.shade_opacity .. "}")
+    ass:append("{\\1a&H" .. opts.shade_opacity .. "}")
+    ass:append("{\\2a&HFF}")
+    ass:append("{\\3a&HFF}")
+    ass:append("{\\4a&HFF}")
     local c1, c2 = unshaded.top_left, unshaded.bottom_right
     local v = video
     --          c1.x   c2.x
@@ -196,7 +199,10 @@ function draw_crosshair(ass, center, window_size)
     ass:append("{\\bord0}")
     ass:append("{\\shad0}")
     ass:append("{\\c&HBBBBBB&}")
-    ass:append("{\\alpha&H00&}")
+    ass:append("{\\1a&H00&}")
+    ass:append("{\\2a&HFF&}")
+    ass:append("{\\3a&HFF&}")
+    ass:append("{\\4a&HFF&}")
     ass:pos(0, 0)
     ass:draw_start()
     ass:rect_cw(center.x - 0.5, 0, center.x + 0.5, window_size.h)
@@ -274,16 +280,9 @@ function draw_crop_zone()
     end
 end
 
-function crop_video(x, y, w, h) --modified to compact mpv 0.28.0+
+function crop_video(x, y, w, h)
     local vf_table = mp.get_property_native("vf")
     vf_table[#vf_table + 1] = {
-        --[[name="crop",
-        params= {
-            x = tostring(x),
-            y = tostring(y),
-            w = tostring(w),
-            h = tostring(h)
-        }]]--
 		name = "lavfi",
 		params = {
 			graph = "crop="..w..":"..h..":"..x..":"..y

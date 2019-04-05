@@ -39,8 +39,21 @@ function switch_hwdec()
     mp.command([[show-text "hwdec: ${hwdec} (${hwdec-current})"]])
 end
 
+local force_ontop_when_start = true
+local was_ontop_start = false
+local function start_ontop()
+    if was_ontop_start == false then
+        if force_ontop_when_start then
+            mp.set_property_native("ontop", true)
+        end
+        was_ontop_start = true
+    end
+end
+
 --mp.register_script_message("Frame_Step", frame_step)
 mp.add_key_binding('f', 'Frame_Step', frame_step_forward, "repeatable")
 mp.add_key_binding('d', 'Frame_Back_Step', frame_step_backward, "repeatable")
 mp.add_key_binding('H', 'Hotkey_Dist', hotkey_dist)
 mp.add_key_binding('O', 'Switch_Hwdec', switch_hwdec)
+
+mp.register_event("start-file", start_ontop)

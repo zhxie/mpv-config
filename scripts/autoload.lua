@@ -89,7 +89,7 @@ local autoloaded = nil
 function find_and_add_entries()
     local path = mp.get_property("path", "")
     local dir, filename = utils.split_path(path)
-    --msg.trace(("dir: %s, filename: %s"):format(dir, filename)) blocked for mpv 0.27.0 by Sketch (below 3)
+    msg.trace(("dir: %s, filename: %s"):format(dir, filename))
     if o.disabled then
         msg.verbose("stopping: autoload disabled")
         return
@@ -109,8 +109,8 @@ function find_and_add_entries()
 
     local pl = mp.get_property_native("playlist", {})
     local pl_current = mp.get_property_number("playlist-pos-1", 1)
-    --msg.trace(("playlist-pos-1: %s, playlist: %s"):format(pl_current,
-    --    utils.to_string(pl)))  blocked for mpv 0.27.0
+    msg.trace(("playlist-pos-1: %s, playlist: %s"):format(pl_current,
+        utils.to_string(pl)))
 
     local files = utils.readdir(dir, "files")
     if files == nil then
@@ -143,7 +143,7 @@ function find_and_add_entries()
     if current == nil then
         return
     end
-    --msg.trace("current file position in files: "..current) blocked for mpv 0.27.0
+    msg.trace("current file position in files: "..current)
 
     local append = {[-1] = {}, [1] = {}}
     for direction = -1, 1, 2 do -- 2 iterations, with direction = -1 and +1
@@ -157,7 +157,7 @@ function find_and_add_entries()
             local filepath = dir .. file
             if pl_e then
                 -- If there's a playlist entry, and it's the same file, stop.
-                --msg.trace(pl_e.filename.." == "..filepath.." ?")  blocked for mpv 0.27.0
+                msg.trace(pl_e.filename.." == "..filepath.." ?")
                 if pl_e.filename == filepath then
                     break
                 end
@@ -177,9 +177,8 @@ function find_and_add_entries()
 
     add_files_at(pl_current + 1, append[1])
     add_files_at(pl_current, append[-1])
-
-    -- Make sure the script only executes ONCE (Sketch 2019-02-13)
-    o.disabled = true
+	
+	o.disabled = true
 end
 
 mp.register_event("start-file", find_and_add_entries)

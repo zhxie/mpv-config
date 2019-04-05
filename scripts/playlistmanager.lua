@@ -47,7 +47,7 @@ local settings = {
     ]
   ]],
 
-  --loadfiles at startup if there is 0 or 1 items in playlist, if 0 uses wor?ing dir for files
+  --loadfiles at startup if there is 0 or 1 items in playlist, if 0 uses worḱing dir for files
   loadfiles_on_start = false,
 
   --sort playlist on mpv start
@@ -94,7 +94,7 @@ local settings = {
   prefer_titles = false,
 
   --osd timeout on inactivity, with high value on this open_toggles is good to be true
-  playlist_display_timeout = 10,
+  playlist_display_timeout = 5,
 
   --amount of entries to show before slicing. Optimal value depends on font/video size etc.
   showamount = 16,
@@ -130,34 +130,34 @@ local settings = {
 
   --playlist display signs, prefix is before filename, and suffix after
   --currently playing file 
-  playing_str_prefix = "? - ",
+  playing_str_prefix = "▷ - ",
   playing_str_suffix = "",
 
   --cursor is ontop of playing file
-  playing_and_cursor_str_prefix = "? - ",
+  playing_and_cursor_str_prefix = "▶ - ",
   playing_and_cursor_str_suffix = "",
 
   --cursor file prefix and suffix
-  cursor_str_prefix = "? - ",
+  cursor_str_prefix = "● - ",
   cursor_str_suffix ="",
 
   --non cursor file prefix and suffix
-  non_cursor_str_prefix = "? - ",
+  non_cursor_str_prefix = "○ - ",
   non_cursor_str_suffix = "",
 
   --when you select a file
-  cursor_str_selected_prefix = "? = ",
+  cursor_str_selected_prefix = "● = ",
   cursor_str_selected_suffix = "",
 
   --when currently playing file is selected
-  playing_str_selected_prefix = "? = ",
+  playing_str_selected_prefix = "▶ = ",
   playing_str_selected_suffix = "",
 
   --top and bottom if playlist entries are sliced off from display
   playlist_sliced_prefix = "...",
   playlist_sliced_suffix = "...",
 
-  --show file playlistnumber before filename ex 01 - ? - file.mkv
+  --show file playlistnumber before filename ex 01 - ▷ - file.mkv
   show_prefix_filenumber = false,
   --show playlistnumber before other prefixes
   show_prefix_filenumber_first = true,

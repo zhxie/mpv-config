@@ -3,9 +3,6 @@
 
 local was_ontop = false
 
-local force_ontop_when_start = true
-local was_ontop_start = false
-
 mp.observe_property("pause", "bool", function(name, value)
     local ontop = mp.get_property_native("ontop")
     if value then
@@ -20,14 +17,3 @@ mp.observe_property("pause", "bool", function(name, value)
         was_ontop = false
     end
 end)
-
-local function ontop()
-    if was_ontop_start == false then
-        if force_ontop_when_start then
-            mp.set_property_native("ontop", true)
-        end
-        was_ontop_start = true
-    end
-end
-
-mp.register_event("start-file", ontop)

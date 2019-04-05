@@ -140,7 +140,7 @@ helpText['display-scale-factor'] = [[Acts as a multiplier to increase the size o
 DPI displays that cause the UI to be rendered too small (happens at least on
 macOS).
 ]]
-settings['default-style'] = [[\fnSource Sans Pro\b1\bord2\shad0\fs30\c&DCDCDC&\3c&H2D2D2D&]]
+settings['default-style'] = [[\fnSource Sans Pro\b1\bord2\shad0\fs30\c&HFC799E&\3c&H2D2D2D&]]
 helpText['default-style'] = [[Default style that is applied to all UI elements. A string of ASS override tags.
 Individual elements have their own style settings which override the tags here.
 Changing the font will likely require changing the hover-time margin settings
@@ -311,7 +311,7 @@ settings['pause-indicator'] = true
 helpText['pause-indicator'] = [[Sets whether or not the pause indicator is displayed. The pause indicator is a
 momentary icon that flashes in the middle of the screen, similar to youtube.
 ]]
-settings['pause-indicator-foreground-style'] = [[\c&DCDCDC&]]
+settings['pause-indicator-foreground-style'] = [[\c&HFC799E&]]
 helpText['pause-indicator-foreground-style'] = [[A string of ASS override tags that get applied only to the foreground of the
 pause indicator.
 ]]
@@ -337,7 +337,7 @@ as a multiplier on the height of the active progress bar. A value greater than 1
 will cause the markers to be taller than the expanded progress bar, whereas a
 value less than 1 will cause them to be shorter.
 ]]
-settings['chapter-marker-before-style'] = [[\c&DCDCDC&]]
+settings['chapter-marker-before-style'] = [[\c&HFC799E&]]
 helpText['chapter-marker-before-style'] = [[A string of ASS override tags that get applied only to chapter markers that have
 not yet been passed.
 ]]

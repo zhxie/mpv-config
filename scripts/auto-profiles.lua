@@ -115,27 +115,6 @@ local function on_idle()
     have_dirty_profiles = false
 end
 
---[[function is_high_bit_depth()
-    mp.observe_property("path", string, change_hwdec)
-end
-
-function change_hwdec()
-    local res = utils.subprocess({
-        args = {"MediaInfo.exe", mp.get_property("path")},
-    })
-    local bit_depth = 0
-    for k in string.gmatch(res.stdout, "Video.-Bit depth%s+: (.-) bits") do
-        print(k)
-        if tonumber(k) > tonumber(bit_depth) then
-            bit_depth = k
-        end
-    end
-    if tonumber(bit_depth) > 8 then
-        mp.set_property("hwdec", "no")
-    end
-    mp.unobserve_property(change_hwdec)
-end]]--
-
 mp.register_idle(on_idle)
 
 local evil_meta_magic = {
