@@ -8,7 +8,7 @@ local settings = {
   --uses :gsub('pattern', 'replace'), read more http://lua-users.org/wiki/StringLibraryTutorial
   --'all' will match any extension or protocol if it has one
   --uses json and parses it into a lua table to be able to support .conf file
-  
+
   filename_replace = "",
 
 --[=====[ START OF SAMPLE REPLACE, to use remove start and end line
@@ -66,7 +66,7 @@ local settings = {
   playlist_savepath = "/home/anon/Documents/",
 
 
-  --show playlist or filename every time a new file is loaded 
+  --show playlist or filename every time a new file is loaded
   --2 shows playlist, 1 shows current file(filename strip applied) as osd text, 0 shows nothing
   --instead of using this you can also call script-message playlistmanager show playlist/filename
   --ex. KEY playlist-next ; script-message playlistmanager show playlist
@@ -129,7 +129,7 @@ local settings = {
   playlist_header = "Playing: %mediatitle%N%NPlaylist - %cursor/%plen",
 
   --playlist display signs, prefix is before filename, and suffix after
-  --currently playing file 
+  --currently playing file
   playing_str_prefix = "▷ - ",
   playing_str_suffix = "",
 
@@ -207,7 +207,7 @@ function on_loaded()
   else
     directory = nil
   end
-  
+
   refresh_globals()
   if settings.sync_cursor_on_load then
     cursor=pos
@@ -408,7 +408,7 @@ function draw_playlist(duration)
     start=0
     showall=true
   end
-  if start > math.max(plen-settings.showamount-1, 0) then 
+  if start > math.max(plen-settings.showamount-1, 0) then
     start=plen-settings.showamount
     showrest=true
   end
@@ -563,7 +563,7 @@ function playlist(force_dir)
         end
       end
     end
-    popen:close()    
+    popen:close()
     if c2 > 0 or c>0 then
       mp.osd_message("Added "..c + c2.." files to playlist")
     else
@@ -756,6 +756,12 @@ function handlemessage(msg, value, value2)
   if msg == "shuffle" then shuffleplaylist() ; return end
   if msg == "loadfiles" then playlist(value) ; return end
   if msg == "save" then save_playlist() ; return end
+  if msg == "addurl" then
+    url_table[value] = value2
+    refresh_globals()
+    if playlist_visible then showplaylist() end
+    return
+  end
   if msg == "toggle" then
     if value ~= "off" then
       toggleplaylist()

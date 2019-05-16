@@ -278,8 +278,13 @@ jonniek
 ### Repository
 https://github.com/jonniek/mpv-playlistmanager
 
-### Last Update
-2019-04-05
+### Files (Last Update)
+playlistmanager.lua (2019-05-17)
+
+url-resolver-win.lua (2019-05-02)
+
+### License
+The Unlicense (https://github.com/jonniek/mpv-playlistmanager/blob/master/LICENSE)
 
 ### Note
 This script is modified by Sketch.
@@ -382,7 +387,7 @@ LGPLv3
 Sketch
 
 ### Last Update
-2019-05-16
+2019-05-17
 
 ### License
 LGPLv3
