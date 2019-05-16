@@ -680,12 +680,12 @@ function showmenu(duration)
 		b=0
 		showall=true
 	end
-	if b > math.max(plen-settings.showamount-1, 0) then 
+	if b > math.max(plen-settings.showamount-1, 0) then
 		b=plen-settings.showamount
 		showrest=true
 	end
 	if b > 0 and not showall then output=output..settings.menu_sliced_str[1].."\n" end
-  
+
 	for a=b,b+settings.showamount-1,1 do
 		if a == plen then break end
 		isbold = false
@@ -772,8 +772,7 @@ end
 
 function getFilters() -- modified to compact mpv 0.28.0
     filters = ""
-    local vf_table = mp.get_property_native("vf")
-    for _, vf in ipairs(vf_table) do
+    for _, vf in ipairs(mp.get_property_native("vf")) do
 		local name = vf["name"]
 		local filter
 		if name == "lavfi" then
@@ -839,18 +838,18 @@ function sec2time(sec)
 	t_hour = 0
 	t_min = 0
 	t_sec = 0
-	
+
 	if tonumber(sec) == nil then
 		return "no"
 	else
 		sec = math.floor(tonumber(sec))
-	end	
-	
+	end
+
 	t_sec = sec % 60
 	t_min = math.floor((sec - t_sec) / 60)
 	t_hour = sec - 60 * t_min - t_sec
-	
-	if t_hour < 10 then 
+
+	if t_hour < 10 then
 		s_hour = "0"..t_hour
 	else
 		s_hour = tostring(t_hour)
@@ -874,20 +873,20 @@ function sec2time_acc(sec)
 	t_min = 0
 	t_sec = 0
 	t_frame = 0
-	
+
 	if tonumber(sec) == nil then
 		return "no"
 	else
 		frame = sec - math.floor(tonumber(sec))
 		sec = math.floor(tonumber(sec))
-	end	
-	
+	end
+
 	t_sec = sec % 60
 	t_min = math.floor((sec - t_sec) / 60)
 	t_hour = sec - 60 * t_min - t_sec
 	t_frame = math.floor(frame / (1 / mp.get_property_number("container-fps")))
-	
-	if t_hour < 10 then 
+
+	if t_hour < 10 then
 		s_hour = "0"..t_hour
 	else
 		s_hour = tostring(t_hour)
