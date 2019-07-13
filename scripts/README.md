@@ -92,7 +92,7 @@ occivink
 https://github.com/occivink/mpv-scripts/blob/master/scripts/crop.lua
 
 ### Last Update
-2019-04-05
+2019-06-14
 
 ### License
 GPLv2 (https://github.com/occivink/mpv-scripts/blob/master/LICENSE)
@@ -279,7 +279,7 @@ jonniek
 https://github.com/jonniek/mpv-playlistmanager
 
 ### Files (Last Update)
-playlistmanager.lua (2019-05-17)
+playlistmanager.lua (2019-07-13)
 
 url-resolver-win.lua (2019-05-02)
 
