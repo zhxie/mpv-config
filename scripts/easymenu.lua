@@ -71,8 +71,7 @@ menuList = {
 		{ "Subtitle", "track#sub", "cycle sub", "" },
 		{ "Secondary Sub", "disp#2sub", "cycle secondary-sid", "" },
 		{ "Subtitle Delay", "${sub-delay}", "add sub-delay +0.1", "%0.2f" },
-		{ "Fix Subtitle Delay", "", "sub-step -1", "" },
-		{ "Restore Subtitle Delay", "", "set sub-delay 0", "" },
+		{ "name#subdelay", "", "script#subdelay", "" },
 		{ "Subtitle Position", "${sub-pos}%", "add sub-pos -1", "" },
 		{ "Subtitle Scale", "${sub-scale}", "add sub-scale +0.05", "%0.2f" },
 		{ "Subtitle Margins", "${sub-ass-force-margins}", "cycle sub-ass-force-margins ; cycle sub-use-margins", "" },
@@ -119,7 +118,7 @@ menuList = {
 		{ "GLSL Shaders", "disp#shaders", "script#shaders", "" },
 		{ "Deband", "${deband}", "cycle deband", "" },
 		{ "FBO Format", "${fbo-format}", "script#fbo"}
-	}, 
+	},
 	{
 		{ "GPU Renderer Options (Display)" },
 		{ "Primary", "${target-prim}", "cycle target-prim ; set icc-profile-auto no", "" },
@@ -194,7 +193,15 @@ function get_item_name(id)
 	if (item == nil) then
 		return
 	end
-	return item[1]
+	if string.match(item[1], "name#subdelay") ~= nil then
+		if (mp.get_property_number("sub-delay") == 0) then
+			return "Fix Subtitle Delay"
+		else
+			return "Restore Subtitle Delay"
+		end
+	else
+		return item[1]
+	end
 end
 
 function get_item_display(id)
@@ -291,7 +298,7 @@ function showmenu(duration)
 		b = 0
 		showall = true
 	end
-	if b > math.max(plen - settings.showamount - 1, 0) then 
+	if b > math.max(plen - settings.showamount - 1, 0) then
 		b = plen - settings.showamount
 		showrest = true
 	end
@@ -384,18 +391,18 @@ function format_time(sec)
 	t_hour = 0
 	t_min = 0
 	t_sec = 0
-	
+
 	if tonumber(sec) == nil then
 		return "no"
 	else
 		sec = math.floor(tonumber(sec))
-	end	
-	
+	end
+
 	t_sec = sec % 60
 	t_min = math.floor((sec - t_sec) / 60)
 	t_hour = sec - 60 * t_min - t_sec
-	
-	if t_hour < 10 then 
+
+	if t_hour < 10 then
 		s_hour = "0"..t_hour
 	else
 		s_hour = tostring(t_hour)
@@ -530,6 +537,12 @@ function modify_prop()
 		else
 			mp.command([[set loop-playlist "inf" ; set loop-file "no"]])
 		end
+	elseif string.match(get_item_property(cursor+1), "script#subdelay") ~= nil then
+		if mp.get_property_number("sub-delay") == 0 then
+			mp.command("sub-step -1")
+		else
+			mp.command("set sub-delay 0")
+		end
 	elseif string.match(get_item_property(cursor+1), "script#assstyle") ~= nil then
 		if mp.get_property("sub-ass-force-style") == "" then
 			mp.command("set sub-ass-force-style "..settings.force_ass_style)
@@ -561,6 +574,12 @@ function modify_prop_reverse()
 			mp.command([[set loop-playlist "inf" ; set loop-file "no"]])
 		else
 			mp.command([[set loop-playlist "no" ; set loop-file "inf"]])
+		end
+	elseif string.match(get_item_property(cursor+1), "script#subdelay") ~= nil then
+		if mp.get_property_number("sub-delay") == 0 then
+			mp.command("sub-step +1")
+		else
+			mp.command("set sub-delay 0")
 		end
 	elseif string.match(get_item_property(cursor+1), "script#assstyle") ~= nil then
 		if mp.get_property("sub-ass-force-style") == "" then
