@@ -9,7 +9,7 @@ bjin
 https://gist.github.com/bjin/15f307e7a1bdb55842bbb663ee1950ed
 
 ### Files (Last Update)
-acme-0.5x.hook (2019-03-07)
+acme-0.5x.hook (2019-10-06)
 
 ## Adaptive Sharpen
 
@@ -20,7 +20,7 @@ igv
 https://gist.github.com/igv/8a77e4eb8276753b54bb94c1c50c317e
 
 ### Files (Last Update)
-adaptive-sharpen.glsl (2019-07-03)
+adaptive-sharpen.glsl (2019-10-14)
 
 ### Note
 Requires sigmoid-upscaling=no.
@@ -49,7 +49,7 @@ igv
 https://gist.github.com/igv/a015fc885d5c22e6891820ad89555637
 
 ### Files (Last Update)
-KrigBilateral.glsl (2019-07-03)
+KrigBilateral.glsl (2019-10-14)
 
 ## LumaSharpenHook
 
@@ -60,7 +60,7 @@ voltmtr
 https://gist.github.com/voltmtr/8b4404b4e23129b226b9e64863d3e28b
 
 ### Files (Last Update)
-LumaSharpenHook.glsl (2019-06-14)
+LumaSharpenHook.glsl (2019-10-06)
 
 ### NNEDI3
 
@@ -133,7 +133,7 @@ igv
 https://gist.github.com/igv/36508af3ffc84410fe39761d6969be10
 
 ### Files (Last Update)
-SSimDownscaler.glsl (2019-07-03)
+SSimDownscaler.glsl (2019-10-17)
 
 ### Notes
 Tuned for use with dscale=mitchell and linear-downscaling=no.
@@ -147,7 +147,7 @@ igv
 https://gist.github.com/igv/2364ffa6e81540f29cb7ab4c9bc05b6b
 
 ### Files (Last Update)
-SSimSuperRes.glsl (2019-07-03)
+SSimSuperRes.glsl (2019-10-14)
 
 ### Notes
 To make it sharper use Mitchell params instead of Catmull-Rom (1.0/3.0, 1.0/3.0 instead of 0.0, 0.5).
