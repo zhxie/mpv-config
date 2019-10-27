@@ -387,7 +387,7 @@ LGPLv3
 Sketch
 
 ### Last Update
-2019-07-13
+2019-10-27
 
 ### License
 LGPLv3
