@@ -28,7 +28,7 @@ https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autocrop.lua
 https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autoload.lua
 
 ### Last Update
-2019-04-05
+2019-10-02
 
 ### Note
 This script is modified by Sketch.
@@ -120,7 +120,7 @@ LGPLv3
 Sketch
 
 ### Last Update
-2018-08-02
+2018-10-02
 
 ### License
 LGPLv3
@@ -279,9 +279,9 @@ jonniek
 https://github.com/jonniek/mpv-playlistmanager
 
 ### Files (Last Update)
-playlistmanager.lua (2019-07-13)
+playlistmanager.lua (2019-10-10)
 
-url-resolver-win.lua (2019-05-02)
+titleresolver.lua (2019-07-27)
 
 ### License
 The Unlicense (https://github.com/jonniek/mpv-playlistmanager/blob/master/LICENSE)
@@ -357,7 +357,7 @@ Argon-
 https://github.com/Argon-/mpv-stats/blob/master/stats.lua
 
 ### Last Update
-2018-07-27
+2018-09-20
 
 ### License
 LGPLv2.1 (https://github.com/Argon-/mpv-stats/blob/master/LICENSE)

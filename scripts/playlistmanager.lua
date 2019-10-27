@@ -90,8 +90,8 @@ local settings = {
 
   --####  VISUAL SETTINGS
 
-  --prefer to display titles over filenames, sorting will still use filename to stay pure
-  prefer_titles = false,
+  --prefer to display titles for following files: "all", "url", "none". Sorting still uses filename.
+  prefer_titles = "url",
 
   --osd timeout on inactivity, with high value on this open_toggles is good to be true
   playlist_display_timeout = 5,
@@ -105,8 +105,8 @@ local settings = {
   --example {\\fnUbuntu\\fs10\\b0\\bord1} equals: font=Ubuntu, size=10, bold=no, border=1
   --read http://docs.aegisub.org/3.2/ASS_Tags/ for reference of tags
   --undeclared tags will use default osd settings
-  --these styles will be used for the whole playlist. More specific styling will need to be hacked in
-  style_ass_tags = "",
+  --these styles will be used for the whole playlist
+  style_ass_tags = "{}",
   --paddings from top left corner
   text_padding_x = 10,
   text_padding_y = 30,
@@ -127,6 +127,7 @@ local settings = {
   --%plen = playlist length
   --%N = newline
   playlist_header = "Playing: %mediatitle%N%NPlaylist - %cursor/%plen",
+
 
   --playlist display signs, prefix is before filename, and suffix after
   --currently playing file
@@ -194,6 +195,8 @@ local plen = 0
 local cursor = 0
 --table for saved media titles for later if we prefer them
 local url_table = {}
+-- table for urls that we have request to be resolved to titles
+local requested_urls = {}
 --state for if we sort on playlist size change
 local sort_watching = false
 
@@ -207,7 +210,7 @@ function on_loaded()
   else
     directory = nil
   end
-
+  
   refresh_globals()
   if settings.sync_cursor_on_load then
     cursor=pos
@@ -258,6 +261,7 @@ function on_closed()
   path = nil
   directory = nil
   filename = nil
+  if playlist_visible then showplaylist() end
 end
 
 function refresh_globals()
@@ -288,6 +292,7 @@ end
 
 --strip a filename based on its extension or protocol according to rules in settings
 function stripfilename(pathfile, media_title)
+  if pathfile == nil then return '' end
   local ext = pathfile:match("^.+%.(.+)$")
   local protocol = pathfile:match("^(%a%a+)://")
   if not ext then ext = "" end
@@ -318,8 +323,9 @@ function get_name_from_index(i, notitle)
   local title = mp.get_property('playlist/'..i..'/title')
   local name = mp.get_property('playlist/'..i..'/filename')
 
+  local should_use_title = settings.prefer_titles == 'all' or name:match('^https?://') and settings.prefer_titles == 'url'
   --check if file has a media title stored or as property
-  if not title and settings.prefer_titles then
+  if not title and should_use_title then
     local mtitle = mp.get_property('media-title')
     if i == pos and mp.get_property('filename') ~= mtitle then
       if not url_table[name] then
@@ -332,7 +338,7 @@ function get_name_from_index(i, notitle)
   end
 
   --if we have media title use a more conservative strip
-  if title and not notitle and settings.prefer_titles then return stripfilename(title, true) end
+  if title and not notitle and should_use_title then return stripfilename(title, true) end
 
   --remove paths if they exist, keeping protocols for stripping
   if string.sub(name, 1, 1) == '/' or name:match("^%a:[/\\]") then
@@ -408,7 +414,7 @@ function draw_playlist(duration)
     start=0
     showall=true
   end
-  if start > math.max(plen-settings.showamount-1, 0) then
+  if start > math.max(plen-settings.showamount-1, 0) then 
     start=plen-settings.showamount
     showrest=true
   end
@@ -502,14 +508,9 @@ function jumptofile()
   refresh_globals()
   if plen == 0 then return end
   tag = nil
-  if cursor < pos then
-    for x=1,math.abs(cursor-pos),1 do
-      mp.commandv("playlist-prev", "weak")
-    end
-  elseif cursor>pos then
-    for x=1,math.abs(cursor-pos),1 do
-      mp.commandv("playlist-next", "weak")
-    end
+  local is_idle = mp.get_property_native('idle-active')
+  if cursor ~= pos or is_idle then
+    mp.set_property("playlist-pos", cursor)
   else
     if cursor~=plen-1 then
       cursor = cursor + 1
@@ -563,7 +564,7 @@ function playlist(force_dir)
         end
       end
     end
-    popen:close()
+    popen:close()    
     if c2 > 0 or c>0 then
       mp.osd_message("Added "..c + c2.." files to playlist")
     else
@@ -598,6 +599,8 @@ function save_playlist()
       if not filename:match("^%a%a+:%/%/") then
         fullpath = utils.join_path(pwd, filename)
       end
+      local title = mp.get_property('playlist/'..i..'/title')
+      if title then file:write("#EXTINF:,"..title.."\n") end
       file:write(fullpath, "\n")
       i=i+1
     end
@@ -735,6 +738,31 @@ if settings.sortplaylist_on_start then
   promised_sort = true
 end
 
+mp.observe_property('playlist-count', "number", function()
+  if playlist_visible then showplaylist() end
+  if settings.prefer_titles == 'none' then return end
+  -- code to resolve url titles
+  local length = mp.get_property_number('playlist-count', 0)
+  if length < 2 then return end
+  local i=0
+  -- loop all items in playlist because we can't predict how it has changed
+  while i < length do
+    local filename = mp.get_property('playlist/'..i..'/filename')
+    local title = mp.get_property('playlist/'..i..'/title')
+    if i ~= pos
+      and filename
+      and filename:match('^https?://')
+      and not title
+      and not url_table[filename]
+      and not requested_urls[filename]
+    then
+      requested_urls[filename] = true
+      mp.commandv('script-message', 'resolveurltitle', filename)
+    end
+    i=i+1
+  end
+end)
+
 --script message handler
 function handlemessage(msg, value, value2)
   if msg == "show" and value == "playlist" then
@@ -772,10 +800,6 @@ function handlemessage(msg, value, value2)
     end
   end
 end
-
-mp.observe_property('playlist-count', "number", function()
-  if playlist_visible then showplaylist() end
-end)
 
 mp.register_script_message("playlistmanager", handlemessage)
 
