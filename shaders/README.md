@@ -20,7 +20,7 @@ igv
 https://gist.github.com/igv/8a77e4eb8276753b54bb94c1c50c317e
 
 ### Files (Last Update)
-adaptive-sharpen.glsl (2019-10-14)
+adaptive-sharpen.glsl (2020-01-20)
 
 ### Note
 Requires sigmoid-upscaling=no.
@@ -49,7 +49,7 @@ igv
 https://gist.github.com/igv/a015fc885d5c22e6891820ad89555637
 
 ### Files (Last Update)
-KrigBilateral.glsl (2019-10-14)
+KrigBilateral.glsl (2020-01-20)
 
 ## LumaSharpenHook
 
@@ -133,7 +133,7 @@ igv
 https://gist.github.com/igv/36508af3ffc84410fe39761d6969be10
 
 ### Files (Last Update)
-SSimDownscaler.glsl (2019-10-17)
+SSimDownscaler.glsl (2020-01-20)
 
 ### Notes
 Tuned for use with dscale=mitchell and linear-downscaling=no.
@@ -147,7 +147,7 @@ igv
 https://gist.github.com/igv/2364ffa6e81540f29cb7ab4c9bc05b6b
 
 ### Files (Last Update)
-SSimSuperRes.glsl (2019-10-14)
+SSimSuperRes.glsl (2020-01-20)
 
 ### Notes
 To make it sharper use Mitchell params instead of Catmull-Rom (1.0/3.0, 1.0/3.0 instead of 0.0, 0.5).

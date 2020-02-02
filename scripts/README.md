@@ -131,7 +131,7 @@ LGPLv3
 Sketch
 
 ### Last Update
-2019-07-13
+2020-02-03
 
 ### License
 LGPLv3
@@ -160,6 +160,45 @@ https://github.com/dya-tel/mpv-scripts/blob/master/fuzzydir.lua
 
 ### License
 MIT (https://github.com/dya-tel/mpv-scripts/blob/master/LICENSE)
+
+## histogram
+
+### Author
+dutuur
+
+### Repository
+https://github.com/detuur/mpv-scripts/blob/master/histogram.lua
+
+### Last Update
+2020-01-27
+
+### License
+MIT (https://github.com/detuur/mpv-scripts/blob/master/LICENSE)
+
+## libass_sub_selector
+
+### Author
+po5
+
+### Repository
+https://github.com/po5/libass_sub_selector/blob/master/libass_sub_selector.lua
+
+### Last Update
+2019-11-18
+
+### Licence
+ISC (https://github.com/po5/libass_sub_selector/blob/master/LICENSE)
+
+## locatefile
+
+### Author
+nimatrueway
+
+### Repository
+https://github.com/nimatrueway/mpv-locatefile-lua-script/blob/master/locatefile.lua
+
+### Last Update
+2019-08-15
 
 ## mediainfo
 
@@ -208,30 +247,6 @@ Sketch
 ### License
 LGPLv3
 
-## mpv_thumbnail_script
-
-### Author
-TheAMM
-
-### Repository
-https://github.com/TheAMM/mpv_thumbnail_script
-
-### Files (Last Update)
-mpv_thumbnail_script_client_osc (2019-03-28)
-
-mpv_thumbnail_script_server (2018-03-26)
-
-### License
-GPLv3 (https://github.com/TheAMM/mpv_thumbnail_script/blob/master/LICENSE)
-
-### Note
-This script is modified by Sketch.
-
-### Change
-Modify layout.
-
-Add condition for thumbnail generating to avoid performance degradation.
-
 ## ontop-playback
 
 ### Repository
@@ -279,7 +294,7 @@ jonniek
 https://github.com/jonniek/mpv-playlistmanager
 
 ### Files (Last Update)
-playlistmanager.lua (2019-10-10)
+playlistmanager.lua (2020-01-04)
 
 titleresolver.lua (2019-07-27)
 
@@ -315,12 +330,12 @@ rossy
 https://github.com/rossy/mpv-repl/blob/master/repl.lua
 
 ### Last Update
-2016-11-13
+2019-11-23
 
 ### License
 ISC (https://github.com/rossy/mpv-repl/blob/master/COPYING)
 
-## smartcopypaste
+## SmartCopyPaste
 
 ### Author
 Eisa01
@@ -329,7 +344,7 @@ Eisa01
 https://github.com/Eisa01/mpv-scripts#smartcopypaste-script
 
 ### Last Update
-2019-01-29
+2020-01-21
 
 ### License
 MIT (https://github.com/Eisa01/mpv-scripts/blob/master/LICENSE)
@@ -357,7 +372,7 @@ Argon-
 https://github.com/Argon-/mpv-stats/blob/master/stats.lua
 
 ### Last Update
-2018-09-20
+2019-12-24
 
 ### License
 LGPLv2.1 (https://github.com/Argon-/mpv-stats/blob/master/LICENSE)
@@ -387,7 +402,7 @@ LGPLv3
 Sketch
 
 ### Last Update
-2019-10-27
+2020-02-02
 
 ### License
 LGPLv3

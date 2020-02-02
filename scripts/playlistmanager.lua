@@ -218,6 +218,11 @@ function on_loaded()
     if playlist_visible then draw_playlist() end
   end
 
+  local media_title = mp.get_property("media-title")
+  if path:match('^https?://') and not url_table[path] and path ~= media_title then
+    url_table[path] = media_title
+  end
+
   strippedname = stripfilename(mp.get_property('media-title'))
   if settings.show_playlist_on_fileload == 2 then
     showplaylist()
@@ -388,12 +393,16 @@ function get_fixes_by_index(i)
 end
 
 function parse_string_props(string)
+  local esc_title = stripfilename(mp.get_property("media-title"), true):gsub("%%", "%%%%")
+  local esc_file = stripfilename(mp.get_property("filename")):gsub("%%", "%%%%")
   return string:gsub("%%N", "\\N")
                :gsub("%%pos", mp.get_property_number("playlist-pos",0)+1)
                :gsub("%%plen", mp.get_property("playlist-count"))
                :gsub("%%cursor", cursor+1)
-               :gsub("%%mediatitle", stripfilename(mp.get_property("media-title"), true))
-               :gsub("%%filename", stripfilename(mp.get_property("filename")))
+               :gsub("%%mediatitle", esc_title)
+               :gsub("%%filename", esc_file)
+               -- undo name escape
+               :gsub("%%%%", "%%")
 end
 
 function draw_playlist(duration)
@@ -586,7 +595,9 @@ end
 function save_playlist()
   local length = mp.get_property_number('playlist-count', 0)
   if length == 0 then return end
-  local savepath = utils.join_path(settings.playlist_savepath, os.time().."-size_"..length.."-playlist.m3u")
+  local date = os.date("*t")
+  local datestring = ("%02d-%02d-%02d_%02d-%02d-%02d"):format(date.year, date.month, date.day, date.hour, date.min, date.sec)
+  local savepath = utils.join_path(settings.playlist_savepath, datestring.."_playlist-size_"..length..".m3u")
   local file, err = io.open(savepath, "w")
   if not file then
     msg.error("Error in creating playlist file, check permissions and paths: "..(err or ""))

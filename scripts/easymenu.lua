@@ -52,7 +52,7 @@ menuList = {
 	{
 		{ "Video" },
 		{ "Video", "track#video", "cycle video", "" },
-		{ "Hardware Decoding", "${hwdec} (${hwdec-current})", [[cycle-values hwdec "no" "auto" "auto-copy"]], "" },
+		{ "Hardware Decoding", "${hwdec} (${hwdec-current})", [[cycle-values hwdec "no" "auto-safe" "auto-copy-safe"]], "" },
 		{ "Aspect Ratio", "${video-aspect}", [[cycle-values video-aspect "4:3" "16:9" "2.4:1" "-1"]], "%0.2f" },
 		{ "Deinterlace", "${deinterlace}", "cycle deinterlace", "" },
 		{ "Output Levels", "${video-output-levels}", "cycle video-output-levels", "" }
