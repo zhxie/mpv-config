@@ -125,17 +125,6 @@ Sketch
 ### License
 LGPLv3
 
-## easymenu
-
-### Author
-Sketch
-
-### Last Update
-2020-02-03
-
-### License
-LGPLv3
-
 ## exit-fullscreen
 
 ### Author
@@ -210,6 +199,32 @@ Sketch
 
 ### License
 LGPLv3
+
+## mpvcontextmenu
+
+### Author
+carmanaught
+
+### Repository
+https://gitlab.com/carmanaught/mpvcontextmenu
+
+### Files (Last Update)
+langcodes.lua (2017-08-04)
+
+menu-builder-tk.tcl (2019-08-10)
+
+menu-engine.lua (2019-08-10)
+
+mpvcontextmenu.lua (2019-08-10)
+
+### License
+MIT (https://gitlab.com/carmanaught/mpvcontextmenu/blob/master/LICENSE.md)
+
+### Note
+This script is modified by Sketch.
+
+### Change
+Fully polished.
 
 ## misc
 
@@ -402,7 +417,7 @@ LGPLv3
 Sketch
 
 ### Last Update
-2020-02-02
+2020-02-03
 
 ### License
 LGPLv3

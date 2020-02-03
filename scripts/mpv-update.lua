@@ -1,6 +1,6 @@
 local settings = {
     required_ver = "mpv 0.32.0-13-g77a74d9eb5",
-    update_date = "2020-02-02",
+    update_date = "2020-02-03",
     mpv_prefix = "{\\fs10}{\\bord0.8}{\\b1}",
     mpv_suffix = "{\\b0}",
     warn_prefix = {
