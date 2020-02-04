@@ -18,7 +18,6 @@
  ***************************************************************
 --]]
 
-local langcodes = require "langcodes"
 local function mpdebug(x) mp.msg.info(x) end
 local propNative = mp.get_property_native
 
@@ -187,16 +186,6 @@ local function vidTrackMenu()
     return vidTrackMenuVal
 end
 
--- Convert ISO 639-1/639-2 codes to be full length language names. The full length names
--- are obtained by using the property accessor with the iso639_1/_2 tables stored in
--- the langcodes.lua file (require "langcodes" above).
-function getLang(trackLang)
-    trackLang = string.upper(trackLang)
-    if (string.len(trackLang) == 2) then trackLang = langcodes.iso639_1(trackLang)
-    elseif (string.len(trackLang) == 3) then trackLang = langcodes.iso639_2(trackLang) end
-    return trackLang
-end
-
 function noneCheck(checkType)
     local checkVal, trackID = false, propNative(checkType)
     if (type(trackID) == "boolean") then
@@ -206,6 +195,12 @@ function noneCheck(checkType)
 end
 
 -- Audio > Track menu functions
+local function enableAudTrack()
+    local audTrackEnable, audTracks = false, trackCount("audio")
+    if (#audTracks < 1) then audTrackEnable = true end
+    return audTrackEnable
+end
+
 local function audTrackMenu()
     local audTrackMenuVal, audTrackCount = {}, trackCount("audio")
 
@@ -216,8 +211,6 @@ local function audTrackMenu()
             local audTrackID = propNative("track-list/" .. audTrackNum .. "/id")
             local audTrackTitle = propNative("track-list/" .. audTrackNum .. "/title")
             local audTrackLang = propNative("track-list/" .. audTrackNum .. "/lang")
-            -- Convert ISO 639-1/2 codes
-            if not (audTrackLang == nil) then audTrackLang = getLang(audTrackLang) and getLang(audTrackLang) or audTrackLang end
 
             if (audTrackTitle) then audTrackTitle = audTrackTitle .. ((audTrackLang ~= nil) and " (" .. audTrackLang .. ")" or "")
             elseif (audTrackLang) then audTrackTitle = audTrackLang
@@ -235,10 +228,27 @@ local function audTrackMenu()
     return audTrackMenuVal
 end
 
--- Subtitle label
-local function subVisLabel() return propNative("sub-visibility") and "Hide" or "Un-hide" end
-
 -- Subtitle > Track menu functions
+
+local function enableSubTrack()
+    local subTrackEnable, subTracks = false, trackCount("sub")
+    if (#subTracks < 1) then subTrackEnable = true end
+    return subTrackEnable
+end
+
+local function checkSubPrimary(trackNum)
+    local primaryState, primaryCur = false, propNative("sid")
+    local trackID = propNative("track-list/" .. trackNum .. "/id")
+    if (primaryCur == trackID) then primaryState = true end
+    return primaryState
+end
+
+local function checkSubSecondary(trackNum)
+    local secondaryState, secondaryCur = false, propNative("secondary-sid")
+    local trackID = propNative("track-list/" .. trackNum .. "/id")
+    if (secondaryCur == trackID) then secondaryState = true end
+    return secondaryState
+end
 
 local function subTrackMenu()
     local subTrackMenuVal, subTrackCount = {}, trackCount("sub")
@@ -250,8 +260,6 @@ local function subTrackMenu()
             local subTrackID = propNative("track-list/" .. subTrackNum .. "/id")
             local subTrackTitle = propNative("track-list/" .. subTrackNum .. "/title")
             local subTrackLang = propNative("track-list/" .. subTrackNum .. "/lang")
-            -- Convert ISO 639-1/2 codes
-            if not (subTrackLang == nil) then subTrackLang = getLang(subTrackLang) and getLang(subTrackLang) or subTrackLang end
 
             if (subTrackTitle) then subTrackTitle = subTrackTitle .. ((subTrackLang ~= nil) and " (" .. subTrackLang .. ")" or "")
             elseif (subTrackLang) then subTrackTitle = subTrackLang
@@ -262,7 +270,7 @@ local function subTrackMenu()
                 table.insert(subTrackMenuVal, {RADIO, "Disabled", "", "set sid 0", function() return noneCheck("sid") end, false})
                 table.insert(subTrackMenuVal, {SEP})
             end
-            table.insert(subTrackMenuVal, {RADIO, subTrackTitle, "", subTrackCommand, function() return checkTrack(subTrackNum) end, false})
+            table.insert(subTrackMenuVal, {RADIO, subTrackTitle, "", subTrackCommand, function() return checkTrack(subTrackNum) end, function() return checkSubSecondary(subTrackNum) end})
         end
     end
 
@@ -279,8 +287,6 @@ local function secondarySubTrackMenu()
             local subTrackID = propNative("track-list/" .. subTrackNum .. "/id")
             local subTrackTitle = propNative("track-list/" .. subTrackNum .. "/title")
             local subTrackLang = propNative("track-list/" .. subTrackNum .. "/lang")
-            -- Convert ISO 639-1/2 codes
-            if not (subTrackLang == nil) then subTrackLang = getLang(subTrackLang) and getLang(subTrackLang) or subTrackLang end
 
             if (subTrackTitle) then subTrackTitle = subTrackTitle .. ((subTrackLang ~= nil) and " (" .. subTrackLang .. ")" or "")
             elseif (subTrackLang) then subTrackTitle = subTrackLang
@@ -291,7 +297,7 @@ local function secondarySubTrackMenu()
                 table.insert(subTrackMenuVal, {RADIO, "Disabled", "", "set secondary-sid 0", function() return noneCheck("secondary-sid") end, false})
                 table.insert(subTrackMenuVal, {SEP})
             end
-            table.insert(subTrackMenuVal, {RADIO, subTrackTitle, "", subTrackCommand, function() return checkTrack(subTrackNum) end, false})
+            table.insert(subTrackMenuVal, {RADIO, subTrackTitle, "", subTrackCommand, function() return checkTrack(subTrackNum) end, function() return checkSubPrimary(subTrackNum) end})
         end
     end
 
@@ -322,6 +328,7 @@ local function stateRatio(ratioVal)
     elseif (ratioVal == "16:9") and (ratioVal == round(16/9, 3)) then ratioState = true
     elseif (ratioVal == "1.85:1") and (ratioVal == round(1.85/1, 3)) then ratioState = true
     elseif (ratioVal == "2.35:1") and (ratioVal == round(2.35/1, 3)) then ratioState = true
+    elseif (ratioVal == "2.39:1") and (ratioVal == round(2.39/1, 3)) then ratioState = true
     elseif (ratioVal == "2.4:1") and (ratioVal == round(2.4/1, 3)) then ratioState = true
     end
 
@@ -376,19 +383,20 @@ mp.register_event("file-loaded", function()
             {CASCADE, "Video", "video_menu", "", "", false},
             {CASCADE, "Audio", "audio_menu", "", "", false},
             {CASCADE, "Subtitle", "subtitle_menu", "", "", false},
+            {CASCADE, "Screenshot", "screenshot_menu", "", "", false},
+            {CASCADE, "Audio Resampler", "resampler_menu", "", "", false},
             {CASCADE, "GPU Renderer Options", "renderer_menu", "", "", false},
             {CASCADE, "Miscellaneous", "miscellaneous_menu", "", "", false},
-            {SEP},
-            {COMMAND, "Screenshot", "Ctrl+c", "async screenshot", "", false},
-            {SEP},
-            {COMMAND, "Playlist", "l", "script-binding stats/display-stats-toggle-off ; script-message easyencode toggle-off ; script-message playlistmanager toggle", "", false},
-            {SEP},
-            {CASCADE, "Tools", "tools_menu", "", "", false},
             {SEP},
             {CASCADE, "Performance", "performance_menu", "", "", false},
             {SEP},
             {CHECK, "Fullscreen", "Enter", "cycle fullscreen", function() return propNative("fullscreen") end, false},
             {CHECK, "Always on Top", "Shift+T", "cycle ontop", function() return propNative("ontop") end, false},
+            {SEP},
+            {COMMAND, "Playlist", "l", "script-binding stats/display-stats-toggle-off ; script-message easyencode toggle-off ; script-message playlistmanager toggle", "", false},
+            {COMMAND, "Stats", "Tab", "script-message easyencode toggle-off ; script-message playlistmanager toggle off ; script-binding stats/display-stats-toggle", "", false},
+            {COMMAND, "MediaInfo", "Shift+Tab", "script-binding mediainfo", "", false},
+            {CASCADE, "Tools", "tools_menu", "", "", false},
             {SEP},
             {COMMAND, "About", "Shift+?", "script-binding mpv-update", "", false},
             {SEP},
@@ -506,6 +514,7 @@ mp.register_event("file-loaded", function()
             {RADIO, "16:9", "", [[set video-aspect-override "16:9"]], function() return stateRatio("16:9") end, false},
             {RADIO, "1.85:1", "", [[set video-aspect-override "1.85:1"]], function() return stateRatio("1.85:1") end, false},
             {RADIO, "2.35:1", "", [[set video-aspect-override "2.35:1"]], function() return stateRatio("2.35:1") end, false},
+            {RADIO, "2.39:1", "", [[set video-aspect-override "2.4:1"]], function() return stateRatio("2.39:1") end, false},
             {RADIO, "2.4:1", "", [[set video-aspect-override "2.4:1"]], function() return stateRatio("2.4:1") end, false},
         },
 
@@ -521,13 +530,13 @@ mp.register_event("file-loaded", function()
         },
 
         rotate_menu = {
-            {COMMAND, "+90 Degrees", "r", "script-message Cycle_Video_Rotate 90", "", false},
-            {COMMAND, "-90 Degrees", "Shift+R", "script-message Cycle_Video_Rotate -90", "", false},
+            {COMMAND, "+90°", "r", "script-message Cycle_Video_Rotate 90", "", false},
+            {COMMAND, "-90°", "Shift+R", "script-message Cycle_Video_Rotate -90", "", false},
             {SEP},
-            {RADIO, "0 Degrees", "", [[set video-rotate "0"]], function() return propNative("video-rotate")==0 end, false},
-            {RADIO, "90 Degrees", "", [[set video-rotate "90"]], function() return propNative("video-rotate")==90 end, false},
-            {RADIO, "180 Degrees", "", [[set video-rotate "180"]], function() return propNative("video-rotate")==180 end, false},
-            {RADIO, "270 Degrees", "", [[set video-rotate "270"]], function() return propNative("video-rotate")==270 end, false},
+            {RADIO, "0°", "", [[set video-rotate "0"]], function() return propNative("video-rotate")==0 end, false},
+            {RADIO, "90°", "", [[set video-rotate "90"]], function() return propNative("video-rotate")==90 end, false},
+            {RADIO, "180°", "", [[set video-rotate "180"]], function() return propNative("video-rotate")==180 end, false},
+            {RADIO, "270°", "", [[set video-rotate "270"]], function() return propNative("video-rotate")==270 end, false},
         },
 
         zoom_menu = {
@@ -582,7 +591,7 @@ mp.register_event("file-loaded", function()
         },
 
         audio_menu = {
-            {CASCADE, "Track", "audtrack_menu", "", "", false},
+            {CASCADE, "Track", "audtrack_menu", "", "", function() return enableAudTrack() end},
             {SEP},
             {CASCADE, "Volume", "volume_menu", "", "", false},
             {CHECK, "Mute", "m", [[cycle-values mute "yes" "no"]], function() return propNative("mute") end, false},
@@ -623,9 +632,9 @@ mp.register_event("file-loaded", function()
         },
 
         subtitle_menu = {
-            {CASCADE, "Track", "subtrack_menu", "", "", false},
+            {CASCADE, "Track", "subtrack_menu", "", "", function() return enableSubTrack() end},
             {SEP},
-            {CASCADE, "Secondary Subtitle", "secondarysub_menu", "", "", false},
+            {CASCADE, "Secondary Subtitle", "secondarysub_menu", "", "", function() return enableSubTrack() end},
             {SEP},
             {CASCADE, "Delay", "subdelay_menu", "", "", false},
             {SEP},
@@ -664,6 +673,15 @@ mp.register_event("file-loaded", function()
             {COMMAND, "-1%", "Ctrl+.", "add sub-pos -1", "", false},
         },
 
+        screenshot_menu = {
+            {COMMAND, "Screenshot", "Ctrl+c", "async screenshot", "", false},
+            {COMMAND, "Screenshot (Video Only)", "Ctrl+Shift+C", "async screenshot video", "", false},
+        },
+
+        resampler_menu = {
+            {CHECK, "Audio Normalize Downmix", "", "cycle audio-normalize-downmix", function() return propNative("audio-normalize-downmix") end, false},
+        },
+
         renderer_menu = {
             {CASCADE, "Scale", "scale_menu", "", "", false},
             {CASCADE, "Chroma Scale", "cscale_menu", "", "", false},
@@ -674,7 +692,7 @@ mp.register_event("file-loaded", function()
             {CHECK, "Sigmoid Upscaling", "", "cycle sigmoid-upscaling", function() return propNative("sigmoid-upscaling") end, false},
             {CHECK, "Interpolation", "Shift+I", "cycle interpolation", function() return propNative("interpolation") end, false},
             {CASCADE, "Dither Depth", "dither_menu", "", "", false},
-            --{CASCADE, "GLSL Shaders", "shaders_menu", "", "", false},
+            {CASCADE, "GLSL Shaders", "shaders_menu", "", "", true},
             {CHECK, "Deband", "", "cycle deband", function() return propNative("deband") end, false},
             {CASCADE, "FBO Format", "fbo_menu", "", "", false},
             {SEP},
@@ -732,6 +750,8 @@ mp.register_event("file-loaded", function()
             {RADIO, "16-bit", "", [[set dither-depth "16"]], function() return propNative("dither-depth")=="16" end, false},
 
         },
+
+        shaders_menu = {},
 
         fbo_menu = {
             {RADIO, "Auto", "", [[set fbo-format "auto"]], function() return propNative("fbo-format")=="auto" end, false},
@@ -855,13 +875,6 @@ mp.register_event("file-loaded", function()
             {RADIO, "Desync", "", [[set video-sync "desync"]], function() return propNative("video-sync")=="desync" end, false},
         },
 
-        tools_menu = {
-            {COMMAND, "Stats", "Tab", "script-message easyencode toggle-off ; script-message playlistmanager toggle off ; script-binding stats/display-stats-toggle", "", false},
-            {COMMAND, "MediaInfo", "Shift+Tab", "script-binding mediainfo", "", false},
-            {COMMAND, "Encode", "Shift+F", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
-            {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false},
-        },
-
         performance_menu = {
             {COMMAND, "Hehe's Choice / Low Quality", "", "no-osd set profile hehes-choice", "", false},
             {COMMAND, "Standard Quality", "", "no-osd set profile standard-quality", "", false},
@@ -871,6 +884,11 @@ mp.register_event("file-loaded", function()
             {COMMAND, "Jiji's Prime", "", "no-osd set profile jijis-prime", "", false},
             {COMMAND, "Jiji's Prime Plus", "j-i-j-i", "no-osd set profile jijis-prime-plus", "", false},
             {COMMAND, "Jiji's Prime MAX", "Shift+J-i-j-i", "no-osd set profile jijis-prime-max", "", false},
+        },
+
+        tools_menu = {
+            {COMMAND, "Encode", "Shift+F", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
+            {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false},
         },
     }
 

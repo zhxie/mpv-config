@@ -411,6 +411,20 @@ Sketch
 ### License
 LGPLv3
 
+## zones
+
+### Author
+wiiaboo
+
+### Repository
+https://github.com/wiiaboo/mpv-scripts/blob/master/zones.lua
+
+### Last Update
+2016-03-29
+
+### License
+MIT (https://github.com/wiiaboo/mpv-scripts/blob/master/LICENSE)
+
 ## mpv-update
 
 ### Author
