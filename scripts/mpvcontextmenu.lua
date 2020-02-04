@@ -177,7 +177,11 @@ local function vidTrackMenu()
             if not (vidTrackTitle) then vidTrackTitle = "Video Track " .. i end
 
             local vidTrackCommand = "set vid " .. vidTrackID
-            table.insert(vidTrackMenuVal, {RADIO, vidTrackTitle, "", vidTrackCommand, function() return checkTrack(vidTrackNum) end, false, true})
+            if (i == 1) then
+                table.insert(vidTrackMenuVal, {RADIO, "Disabled", "", "set vid 0", function() return noneCheck("vid") end, false})
+                table.insert(vidTrackMenuVal, {SEP})
+            end
+            table.insert(vidTrackMenuVal, {RADIO, vidTrackTitle, "", vidTrackCommand, function() return checkTrack(vidTrackNum) end, false})
         end
     else
         table.insert(vidTrackMenuVal, {RADIO, "No Video Tracks", "", "", "", true})
@@ -338,7 +342,6 @@ local function stateRatio(ratioVal)
     elseif (ratioVal == "16:10") and (ratioVal == round(16/10, 3)) then ratioState = true
     elseif (ratioVal == "16:9") and (ratioVal == round(16/9, 3)) then ratioState = true
     elseif (ratioVal == "1.85:1") and (ratioVal == round(1.85/1, 3)) then ratioState = true
-    elseif (ratioVal == "2.35:1") and (ratioVal == round(2.35/1, 3)) then ratioState = true
     elseif (ratioVal == "2.39:1") and (ratioVal == round(2.39/1, 3)) then ratioState = true
     elseif (ratioVal == "2.4:1") and (ratioVal == round(2.4/1, 3)) then ratioState = true
     end
@@ -518,14 +521,13 @@ mp.register_event("file-loaded", function()
         },
 
         aspect_menu = {
-            {COMMAND, "Reset", "", [[set video-aspect-override "-1"]], "", false},
+            {RADIO, "Auto", "", [[set video-aspect-override "-1"]], function() return propNative("video-aspect-override")==-1 end, false},
             {SEP},
-            {RADIO, "4:3", "", [[set video-aspect-override "4:3"]], function() return stateRatio("4:3") end, false},
+            {RADIO, "4:3 / TV", "", [[set video-aspect-override "4:3"]], function() return stateRatio("4:3") end, false},
             {RADIO, "16:10", "", [[set video-aspect-override "16:10"]], function() return stateRatio("16:10") end, false},
-            {RADIO, "16:9", "", [[set video-aspect-override "16:9"]], function() return stateRatio("16:9") end, false},
-            {RADIO, "1.85:1", "", [[set video-aspect-override "1.85:1"]], function() return stateRatio("1.85:1") end, false},
-            {RADIO, "2.35:1", "", [[set video-aspect-override "2.35:1"]], function() return stateRatio("2.35:1") end, false},
-            {RADIO, "2.39:1", "", [[set video-aspect-override "2.4:1"]], function() return stateRatio("2.39:1") end, false},
+            {RADIO, "16:9 / HDTV", "", [[set video-aspect-override "16:9"]], function() return stateRatio("16:9") end, false},
+            {RADIO, "1.85:1 / Widescreen", "", [[set video-aspect-override "1.85:1"]], function() return stateRatio("1.85:1") end, false},
+            {RADIO, "2.39:1 / CinemaScope", "", [[set video-aspect-override "2.4:1"]], function() return stateRatio("2.39:1") end, false},
             {RADIO, "2.4:1", "", [[set video-aspect-override "2.4:1"]], function() return stateRatio("2.4:1") end, false},
         },
 
@@ -829,16 +831,16 @@ mp.register_event("file-loaded", function()
         peak_menu = {
             {RADIO, "Auto", "", [[set target-peak "auto"]], function() return propNative("target-peak")=="auto" end, false},
             {SEP},
-            {RADIO, "100 nits / SDR", "", [[set target-peak "100"]], function() return propNative("target-peak")=="100" end, false},
-            {RADIO, "300 nits / HDR300", "", [[set target-peak "300"]], function() return propNative("target-peak")=="300" end, false},
-            {RADIO, "400 nits / HDR400", "", [[set target-peak "400"]], function() return propNative("target-peak")=="400" end, false},
-            {RADIO, "450 nits / HDR450", "", [[set target-peak "450"]], function() return propNative("target-peak")=="450" end, false},
-            {RADIO, "600 nits / HDR600", "", [[set target-peak "600"]], function() return propNative("target-peak")=="600" end, false},
-            {RADIO, "800 nits / HDR800", "", [[set target-peak "800"]], function() return propNative("target-peak")=="800" end, false},
-            {RADIO, "1000 nits / HDR1000", "", [[set target-peak "1000"]], function() return propNative("target-peak")=="1000" end, false},
+            {RADIO, "100 nit / SDR", "", [[set target-peak "100"]], function() return propNative("target-peak")=="100" end, false},
+            {RADIO, "300 nit", "", [[set target-peak "300"]], function() return propNative("target-peak")=="300" end, false},
+            {RADIO, "400 nit / DisplayHDR 400", "", [[set target-peak "400"]], function() return propNative("target-peak")=="400" end, false},
+            {RADIO, "500 nit", "", [[set target-peak "500"]], function() return propNative("target-peak")=="500" end, false},
+            {RADIO, "600 nit / DisplayHDR 600", "", [[set target-peak "600"]], function() return propNative("target-peak")=="600" end, false},
+            {RADIO, "800 nit", "", [[set target-peak "800"]], function() return propNative("target-peak")=="800" end, false},
+            {RADIO, "1000 nit / DisplayHDR 1000", "", [[set target-peak "1000"]], function() return propNative("target-peak")=="1000" end, false},
             {SEP},
-            {COMMAND, "+50 nits", "", "add target-peak 50", "", false},
-            {COMMAND, "-50 nits", "", "add target-peak -50", "", false},
+            {COMMAND, "+50 nit", "", "add target-peak 50", "", false},
+            {COMMAND, "-50 nit", "", "add target-peak -50", "", false},
         },
 
         tonemap_menu = {
