@@ -47,23 +47,7 @@ if { $::argc < 1 } {
 
 set RESP_CANCEL -1
 
-# Checkbutton/Radiobutton text values here to use in place of Tk checkbutton/radiobutton
-# since the styling doesn't seem to show for the tk_popup, except when checked. It's
-# important that a monospace font is used for the menu items to appear correctly.
-set boxCheck "\[X\] "
-set boxUncheck "\[ \] "
-set radioSelect "(X) "
-set radioEmpty "( ) "
-set boxA "\[A\] "
-set boxB "\[B\] "
-# An empty prefix label that is spaces that count to the the same number of characters as
-# the button labels
-set emptyPre "    "
-# This is to put a bit of a spacer between label and accelerator
-set accelSpacer "   "
-set menuWidth 36
 # Various other global variables
-set labelPre ""
 set first 1
 set postMenu "false"
 set postMenus ""
@@ -92,7 +76,7 @@ foreach {mVal(1) mVal(2) mVal(3) mVal(4) mVal(5) mVal(6) mVal(7)} $argList {
 # and the accelerator, getting the max length for that menu and adding 4 spaces, then
 # appending the label after the spaces, making it appear justified to the right.
 proc makeLabel {curTable accelLabel} {
-    set spacesCount [expr [expr $::maxAccel($curTable) + 4] - [string length $accelLabel]]
+    set spacesCount [expr [expr $::maxAccel($curTable) + 2] - [string length $accelLabel]]
     set whiteSpace [string repeat " " $spacesCount]
     set fullLabel $whiteSpace$accelLabel
     return $fullLabel
@@ -175,7 +159,7 @@ foreach {mVal(1) mVal(2) mVal(3) mVal(4) mVal(5) mVal(6) mVal(7)} $argList {
     if {$mVal(1) == "cascade"} {
         # Reverse the $curMenu and $preMenu here so that the menu so that it attaches in the
         # correct order.
-        $preMenu add cascade -label $emptyPre$mVal(2) -state $mVal(7) -menu $curMenu
+        $preMenu add cascade -label $mVal(2) -state $mVal(7) -menu $curMenu
         continue
     }
 
@@ -185,7 +169,7 @@ foreach {mVal(1) mVal(2) mVal(3) mVal(4) mVal(5) mVal(6) mVal(7)} $argList {
     }
 
     if {$mVal(3) == "command"} {
-        $curMenu add command -label $emptyPre$mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
+        $curMenu add command -label $mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
         continue
     }
 
@@ -193,37 +177,43 @@ foreach {mVal(1) mVal(2) mVal(3) mVal(4) mVal(5) mVal(6) mVal(7)} $argList {
     # give a textual appearance of check/radio items showing their status.
 
     if {$mVal(3) == "checkbutton"} {
+        set checktrue 1
+        set checkfalse 0
+
         if {$mVal(6) == "true"} {
-            set labelPre $boxCheck
+            $curMenu add checkbutton -label $mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu" -onvalue 1 -offvalue 0 -variable checktrue
         } else {
-            set labelPre $boxUncheck
+            $curMenu add checkbutton -label $mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu" -onvalue 1 -offvalue 0 -variable checkfalse
         }
 
-        $curMenu add command -label $labelPre$mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
         continue
     }
 
     if {$mVal(3) == "radiobutton"} {
+        set radiotrue 1
+        set radiofalse 0
+
         if {$mVal(6) == "true"} {
-            set labelPre $radioSelect
+            $curMenu add radiobutton -label $mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu" -value 1 -variable radiotrue
         } else {
-            set labelPre $radioEmpty
+            $curMenu add radiobutton -label $mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu" -value 1 -variable radiofalse
         }
 
-        $curMenu add command -label $labelPre$mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
         continue
     }
 
     if {$mVal(3) == "ab-button"} {
+        set aba " (A)"
+        set abb " (B)"
+
         if {$mVal(6) == "a"} {
-            set labelPre $boxA
+            $curMenu add command -label $mVal(4)$aba -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
         } elseif {$mVal(6) == "b"} {
-            set labelPre $boxB
+            $curMenu add command -label $mVal(4)$abb -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
         } elseif {$mVal(6) == "off"} {
-            set labelPre $boxUncheck
+            $curMenu add command -label $mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
         }
 
-        $curMenu add command -label $labelPre$mVal(4) -accel [makeLabel $mVal(1) $mVal(5)] -state $mVal(7) -command "done $mVal(1) $mVal(2) $curMenu"
         continue
     }
 }

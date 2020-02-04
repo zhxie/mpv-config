@@ -304,13 +304,24 @@ local function secondarySubTrackMenu()
     return subTrackMenuVal
 end
 
-local function stateABLoop()
+local function nameABLoop()
     local abLoopState = ""
     local abLoopA, abLoopB = propNative("ab-loop-a"), propNative("ab-loop-b")
 
-    if (abLoopA == "no") and (abLoopB == "no") then abLoopState =  "off"
-    elseif not (abLoopA == "no") and (abLoopB == "no") then abLoopState = "a"
-    elseif not (abLoopA == "no") and not (abLoopB == "no") then abLoopState = "b" end
+    if (abLoopA == "no") and (abLoopB == "no") then abLoopState =  "A-B Loop (Set A)"
+    elseif not (abLoopA == "no") and (abLoopB == "no") then abLoopState = "A-B Loop (Set B)"
+    elseif not (abLoopA == "no") and not (abLoopB == "no") then abLoopState = "A-B Loop" end
+
+    return abLoopState
+end
+
+local function stateABLoop()
+    local abLoopState = false
+    local abLoopA, abLoopB = propNative("ab-loop-a"), propNative("ab-loop-b")
+
+    if (abLoopA == "no") and (abLoopB == "no") then abLoopState = false
+    elseif not (abLoopA == "no") and (abLoopB == "no") then abLoopState = false
+    elseif not (abLoopA == "no") and not (abLoopB == "no") then abLoopState = true end
 
     return abLoopState
 end
@@ -460,7 +471,7 @@ mp.register_event("file-loaded", function()
         },
 
         abloop_menu = {
-            {AB, "Set/Clear A-B Loop", "", "ab-loop", function() return stateABLoop() end, false},
+            {CHECK, function() return nameABLoop() end, "", "ab-loop", function() return stateABLoop() end, false},
         },
 
         -- Use functions returning tables, since we don't need these menus if there
