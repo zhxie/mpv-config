@@ -183,8 +183,6 @@ local function vidTrackMenu()
             end
             table.insert(vidTrackMenuVal, {RADIO, vidTrackTitle, "", vidTrackCommand, function() return checkTrack(vidTrackNum) end, false})
         end
-    else
-        table.insert(vidTrackMenuVal, {RADIO, "No Video Tracks", "", "", "", true})
     end
 
     return vidTrackMenuVal
@@ -600,10 +598,10 @@ mp.register_event("file-loaded", function()
         filters_menu = {
             {COMMAND, "Clear Filters", "", [[vf clr ""]], "", false},
             {SEP},
-            {COMMAND, "Flip", "", "vf toggle lavfi=vflip", "", false},
-            {COMMAND, "Mirror", "", "vf toggle lavfi=hflip", "", false},
-            {COMMAND, "Crop", "", "script-message-to crop start-crop", "", false},
-            {COMMAND, "Auto Crop", "", "script-binding auto_crop", "", false},
+            {COMMAND, "Flip (SWDEC)", "", "vf toggle lavfi=vflip", "", false},
+            {COMMAND, "Mirror (SWDEC)", "", "vf toggle lavfi=hflip", "", false},
+            {COMMAND, "Crop (SWDEC)", "", "script-message-to crop start-crop", "", false},
+            {COMMAND, "Auto Crop (SWDEC)", "", "script-binding auto_crop", "", false},
         },
 
         audio_menu = {
@@ -947,7 +945,7 @@ mp.register_event("file-loaded", function()
 
         tools_menu = {
             {COMMAND, "Blackout", "`", "script-binding blackout/blackout", "", false},
-            {COMMAND, "Histogram", "Shift+H", "script-binding toggle-histogram", "", false},
+            {COMMAND, "Histogram (SWDEC)", "Shift+H", "script-binding toggle-histogram", "", false},
             {COMMAND, "Locate...", "Shift+K", "script-message locate-current-file", "", false},
             {COMMAND, "Encode", "Shift+F", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
             {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false},
