@@ -466,7 +466,7 @@ mp.register_event("file-loaded", function()
         speed_menu = {
             {COMMAND, "Reset", "", [[set speed 1 ; show-text "Speed: ${speed}"]], "", false},
             {SEP},
-            {COMMAND, "+10%", "c", "add speed +0.1", "", false},
+            {COMMAND, "+10%", "c", "add speed 0.1", "", false},
             {COMMAND, "-10%", "x", "add speed -0.1", "", false},
         },
 
@@ -656,7 +656,7 @@ mp.register_event("file-loaded", function()
             {SEP},
             {CASCADE, "Scale", "subscale_menu", "", "", false},
             {CASCADE, "Position", "subpos_menu", "", "", false},
-            {CHECK, "Place Subtitles In Black Borders", "", "cycle sub-ass-force-margins ; cycle sub-use-margins", function() return propNative("sub-ass-force-margins") end, false},
+            {CHECK, "Place Subtitles in Black Borders", "", "cycle sub-ass-force-margins ; cycle sub-use-margins", function() return propNative("sub-ass-force-margins") end, false},
             {CHECK, "Override Image Subtitle Resolution", "", "cycle image-subs-video-resolution", function() return propNative("image-subs-video-resolution") end, false},
         },
 
@@ -668,10 +668,10 @@ mp.register_event("file-loaded", function()
         subdelay_menu = {
             {COMMAND, "Reset", "", "set sub-delay 0", "", false},
             {SEP},
-            {COMMAND, "Align to Next", "", "sub-step +1", "", false},
+            {COMMAND, "Align to Next", "", "sub-step 1", "", false},
             {COMMAND, "Align to Previous", "", "sub-step -1", "", false},
             {SEP},
-            {COMMAND, "+100 ms", ".", "add sub-delay +0.1", "", false},
+            {COMMAND, "+100 ms", ".", "add sub-delay 0.1", "", false},
             {COMMAND, "-100 ms", ",", "add sub-delay -0.1", "", false},
         },
 
@@ -947,6 +947,8 @@ mp.register_event("file-loaded", function()
 
         tools_menu = {
             {COMMAND, "Blackout", "`", "script-binding blackout/blackout", "", false},
+            {COMMAND, "Histogram", "Shift+H", "script-binding toggle-histogram", "", false},
+            {COMMAND, "Locate...", "Shift+K", "script-message locate-current-file", "", false},
             {COMMAND, "Encode", "Shift+F", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
             {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false},
         },
