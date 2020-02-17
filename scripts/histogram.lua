@@ -4,10 +4,10 @@
   * AUTHOR: detuur
   * License: MIT
   * link: https://github.com/detuur/mpv-scripts
-  * 
+  *
   * This script exposes a configurable way to overlay ffmpeg
   * histograms in mpv.
-  * 
+  *
   * There are three default keybinds:
   *     h - Toggle the histogram on/off
   *     H - Cycle between the pixel formats available
@@ -28,7 +28,7 @@ local opts = {
     -- These options directly control the `histogram` filter in ffmpeg, consult
     -- its options at this link: https://ffmpeg.org/ffmpeg-filters.html#histogram
     hist = {
-        level_height = 200,
+        level_height = 144,
         scale_height = 12,
         display_mode = "stack", -- Possible options: {"stack", "parade", "overlay"}
         levels_mode = "linear", -- Possible options: {"linear", "logarithmic"}
@@ -45,12 +45,12 @@ local opts = {
     -- prettier, but are also slower, which is why the higher bit-depths have alpha-
     -- less formats. Get a full list of supported and unsupported formats by running
     -- mpv with `mpv --vf=format=fmt=help` on the command line.
-    fmts_available = { "default", "gray", "gbrap", "gbrp10", "gbrp12", "yuva444p", "yuva444p10", "yuv444p12" },
+    fmts_available = { "default", "gray", "gbrap", "yuva444p" },
 
     -- These options control the positioning of the histogram. `pos` is only respected
     -- if x and y are nil.
     overlay = {
-        pos = "right-upper", -- Possible options: {"right", "left"}"-"{"lower", "upper"}
+        pos = "left-upper", -- Possible options: {"right", "left"}"-"{"lower", "upper"}
         margin = 10,
         x = nil,
         y = nil
@@ -116,6 +116,15 @@ function toggleFilter()
             mp.set_property_native("vf", vf_table)
             return
         end
+    else
+        vf_table[#vf_table + 1] = {
+            label="histogram",
+            name="lavfi",
+            params= {
+                graph = buildGraph()
+            }
+        }
+        mp.set_property_native("vf", vf_table)
     end
 end
 

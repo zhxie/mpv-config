@@ -172,6 +172,12 @@ https://github.com/detuur/mpv-scripts/blob/master/histogram.lua
 ### Last Update
 2020-01-27
 
+### Note
+This script is modified by Sketch.
+
+### Change
+Fix histogram may not be attached if no filter exists
+
 ### License
 MIT (https://github.com/detuur/mpv-scripts/blob/master/LICENSE)
 
