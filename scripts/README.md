@@ -1,5 +1,16 @@
 # User Scripts
 
+## always-play-on-startup
+
+### Author
+AN3223
+
+### Repository
+https://github.com/AN3223/dotfiles/blob/master/.config/mpv/scripts/always-play-on-startup.lua
+
+### Last Update
+2020-02-10
+
 ## auto-profiles
 
 ### Author
@@ -431,7 +442,7 @@ MIT (https://github.com/wiiaboo/mpv-scripts/blob/master/LICENSE)
 Sketch
 
 ### Last Update
-2020-02-05
+2020-02-17
 
 ### License
 LGPLv3
