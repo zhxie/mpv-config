@@ -397,6 +397,7 @@ mp.register_event("file-loaded", function()
             {CASCADE, "Video", "video_menu", "", "", false},
             {CASCADE, "Audio", "audio_menu", "", "", false},
             {CASCADE, "Subtitle", "subtitle_menu", "", "", false},
+            {CASCADE, "Equalizer", "equalizer_menu", "", "", false},
             {CASCADE, "Screenshot", "screenshot_menu", "", "", false},
             {CASCADE, "Audio Resampler", "resampler_menu", "", "", false},
             {CASCADE, "GPU Renderer Options", "renderer_menu", "", "", false},
@@ -414,6 +415,7 @@ mp.register_event("file-loaded", function()
             {SEP},
             {COMMAND, "About", "Shift+?", "script-binding mpv-update", "", false},
             {SEP},
+            {COMMAND, "Dismiss Menu", "", "", "", false},
             {COMMAND, "Quit", "", "quit-watch-later", "", false},
         },
 
@@ -505,8 +507,9 @@ mp.register_event("file-loaded", function()
 
         hwdec_menu = {
             {COMMAND, "Auto", "", [[set hwdec "auto"]], "", false},
-            {COMMAND, "Auto (Safe)", "", [[set hwdec "auto-safe"]], "", false},
             {COMMAND, "Auto (Copy)", "", [[set hwdec "auto-copy"]], "", false},
+            {SEP},
+            {COMMAND, "Auto (Safe)", "", [[set hwdec "auto-safe"]], "", false},
             {COMMAND, "Auto (Copy) (Safe)", "", [[set hwdec "auto-copy-safe"]], "", false},
             {SEP},
             {RADIO, "No", "", [[set hwdec "no"]], function() return propNative("hwdec-current")=="no" end, false},
@@ -653,8 +656,8 @@ mp.register_event("file-loaded", function()
             {SEP},
             {CASCADE, "Scale", "subscale_menu", "", "", false},
             {CASCADE, "Position", "subpos_menu", "", "", false},
-            {CHECK, "Margins", "", "cycle sub-ass-force-margins ; cycle sub-use-margins", function() return propNative("sub-ass-force-margins") end, false},
-            {CHECK, "Override Resolution", "", "cycle image-subs-video-resolution", function() return propNative("image-subs-video-resolution") end, false},
+            {CHECK, "Place Subtitles In Black Borders", "", "cycle sub-ass-force-margins ; cycle sub-use-margins", function() return propNative("sub-ass-force-margins") end, false},
+            {CHECK, "Override Image Subtitle Resolution", "", "cycle image-subs-video-resolution", function() return propNative("image-subs-video-resolution") end, false},
         },
 
         -- Use function to return list of Subtitle Tracks
@@ -684,6 +687,49 @@ mp.register_event("file-loaded", function()
             {SEP},
             {COMMAND, "+1%", "Ctrl+,", "add sub-pos 1", "", false},
             {COMMAND, "-1%", "Ctrl+.", "add sub-pos -1", "", false},
+        },
+
+        equalizer_menu = {
+            {CASCADE, "Brightness", "brightness_menu", "", "", false},
+            {CASCADE, "Contrast", "contrast_menu", "", "", false},
+            {CASCADE, "Saturation", "saturation_menu", "", "", false},
+            {CASCADE, "Gamma", "gamma_menu", "", "", false},
+            {CASCADE, "Hue", "hue_menu", "", "", false},
+        },
+
+        brightness_menu = {
+            {COMMAND, "Reset", "", "set brightness 0", "", false},
+            {SEP},
+            {COMMAND, "+5%", "", "add brightness 5", "", false},
+            {COMMAND, "-5%", "", "add brightness -5", "", false},
+        },
+
+        contrast_menu = {
+            {COMMAND, "Reset", "", "set contrast 0", "", false},
+            {SEP},
+            {COMMAND, "+5%", "", "add contrast 5", "", false},
+            {COMMAND, "-5%", "", "add contrast -5", "", false},
+        },
+
+        saturation_menu = {
+            {COMMAND, "Reset", "", "set saturation 0", "", false},
+            {SEP},
+            {COMMAND, "+5%", "", "add saturation 5", "", false},
+            {COMMAND, "-5%", "", "add saturation -5", "", false},
+        },
+
+        gamma_menu = {
+            {COMMAND, "Reset", "", "set gamma 0", "", false},
+            {SEP},
+            {COMMAND, "+5%", "", "add gamma 5", "", false},
+            {COMMAND, "-5%", "", "add gamma -5", "", false},
+        },
+
+        hue_menu = {
+            {COMMAND, "Reset", "", "set hue 0", "", false},
+            {SEP},
+            {COMMAND, "+5%", "", "add hue 5", "", false},
+            {COMMAND, "-5%", "", "add hue -5", "", false},
         },
 
         screenshot_menu = {
@@ -779,7 +825,7 @@ mp.register_event("file-loaded", function()
 
         display_menu = {
             {CASCADE, "Primary", "primary_menu", "", "", false},
-            {CASCADE, "Gamma", "gamma_menu", "", "", false},
+            {CASCADE, "Gamma", "trc_menu", "", "", false},
             {CHECK, "Load ICC Profile", "", "cycle icc-profile-auto", function() return propNative("icc-profile-auto") end, false},
         },
 
@@ -800,7 +846,7 @@ mp.register_event("file-loaded", function()
             {RADIO, "Sony S-Gamut", "", [[set target-prim "s-gamut"]], function() return propNative("target-prim")=="s-gamut" end, false},
         },
 
-        gamma_menu = {
+        trc_menu = {
             {RADIO, "Auto", "", [[set target-trc "auto"]], function() return propNative("target-trc")=="auto" end, false},
             {SEP},
             {RADIO, "ITU-R BT.1886", "", [[set target-trc "bt.1886"]], function() return propNative("target-trc")=="bt.1886" end, false},
@@ -900,6 +946,7 @@ mp.register_event("file-loaded", function()
         },
 
         tools_menu = {
+            {COMMAND, "Blackout", "`", "script-binding blackout/blackout", "", false},
             {COMMAND, "Encode", "Shift+F", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
             {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false},
         },
