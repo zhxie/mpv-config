@@ -598,10 +598,10 @@ mp.register_event("file-loaded", function()
         filters_menu = {
             {COMMAND, "Clear Filters", "", [[vf clr ""]], "", false},
             {SEP},
-            {COMMAND, "Flip (SWDEC)", "", "vf toggle lavfi=vflip", "", false},
-            {COMMAND, "Mirror (SWDEC)", "", "vf toggle lavfi=hflip", "", false},
-            {COMMAND, "Crop (SWDEC)", "", "script-message-to crop start-crop", "", false},
-            {COMMAND, "Auto Crop (SWDEC)", "", "script-binding auto_crop", "", false},
+            {COMMAND, "Flip", "", "set hwdec no ; vf toggle lavfi=vflip", "", false},
+            {COMMAND, "Mirror", "", "set hwdec no ; vf toggle lavfi=hflip", "", false},
+            {COMMAND, "Crop", "", "set hwdec no ; script-message-to crop start-crop", "", false},
+            {COMMAND, "Auto Crop", "", "set hwdec no ; script-binding auto_crop", "", false},
         },
 
         audio_menu = {
@@ -688,6 +688,8 @@ mp.register_event("file-loaded", function()
         },
 
         equalizer_menu = {
+            {COMMAND, "Reset", "", "set brightness 0 ; set contrast 0 ; set saturation 0 ; set gamma 0 ; set hue 0", "", false},
+            {SEP},
             {CASCADE, "Brightness", "brightness_menu", "", "", false},
             {CASCADE, "Contrast", "contrast_menu", "", "", false},
             {CASCADE, "Saturation", "saturation_menu", "", "", false},
@@ -698,36 +700,36 @@ mp.register_event("file-loaded", function()
         brightness_menu = {
             {COMMAND, "Reset", "", "set brightness 0", "", false},
             {SEP},
-            {COMMAND, "+5%", "", "add brightness 5", "", false},
-            {COMMAND, "-5%", "", "add brightness -5", "", false},
+            {COMMAND, "+5%", "Ctrl+1", "add brightness 5", "", false},
+            {COMMAND, "-5%", "Ctrl+Shift+!", "add brightness -5", "", false},
         },
 
         contrast_menu = {
             {COMMAND, "Reset", "", "set contrast 0", "", false},
             {SEP},
-            {COMMAND, "+5%", "", "add contrast 5", "", false},
-            {COMMAND, "-5%", "", "add contrast -5", "", false},
+            {COMMAND, "+5%", "Ctrl+2", "add contrast 5", "", false},
+            {COMMAND, "-5%", "Ctrl+Shift+@", "add contrast -5", "", false},
         },
 
         saturation_menu = {
             {COMMAND, "Reset", "", "set saturation 0", "", false},
             {SEP},
-            {COMMAND, "+5%", "", "add saturation 5", "", false},
-            {COMMAND, "-5%", "", "add saturation -5", "", false},
+            {COMMAND, "+5%", "Ctrl+3", "add saturation 5", "", false},
+            {COMMAND, "-5%", "Ctrl+Shift+#", "add saturation -5", "", false},
         },
 
         gamma_menu = {
             {COMMAND, "Reset", "", "set gamma 0", "", false},
             {SEP},
-            {COMMAND, "+5%", "", "add gamma 5", "", false},
-            {COMMAND, "-5%", "", "add gamma -5", "", false},
+            {COMMAND, "+5%", "Ctrl+4", "add gamma 5", "", false},
+            {COMMAND, "-5%", "Ctrl+Shift+$", "add gamma -5", "", false},
         },
 
         hue_menu = {
             {COMMAND, "Reset", "", "set hue 0", "", false},
             {SEP},
-            {COMMAND, "+5%", "", "add hue 5", "", false},
-            {COMMAND, "-5%", "", "add hue -5", "", false},
+            {COMMAND, "+5%", "Ctrl+5", "add hue 5", "", false},
+            {COMMAND, "-5%", "Ctrl+Shift+%", "add hue -5", "", false},
         },
 
         screenshot_menu = {
@@ -945,10 +947,10 @@ mp.register_event("file-loaded", function()
 
         tools_menu = {
             {COMMAND, "Blackout", "`", "script-binding blackout/blackout", "", false},
-            {COMMAND, "Histogram (SWDEC)", "Shift+H", "script-binding toggle-histogram", "", false},
+            {COMMAND, "Histogram", "Ctrl+h", "set hwdec no ; script-binding toggle-histogram", "", false},
             {COMMAND, "Generate Thumbnails", "Ctrl+t", "script-binding generate-thumbnails", "", false},
-            {COMMAND, "Locate...", "Shift+K", "script-message locate-current-file", "", false},
-            {COMMAND, "Encode", "Shift+F", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
+            {COMMAND, "Locate...", "Ctrl+l", "script-message locate-current-file", "", false},
+            {COMMAND, "Encode", "Ctrl+e", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
             {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false},
         },
     }
