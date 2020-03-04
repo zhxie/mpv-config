@@ -254,6 +254,28 @@ Sketch
 ### License
 LGPLv3
 
+## mpv_thumbnail_script
+
+### Author
+TheAMM
+
+### Repository
+https://github.com/TheAMM/mpv_thumbnail_script
+
+### Files (Last Update)
+mpv_thumbnail_script_client_osc (2019-11-04)
+
+mpv_thumbnail_script_server (2020-01-17)
+
+### License
+GPLv3 (https://github.com/TheAMM/mpv_thumbnail_script/blob/master/LICENSE)
+
+### Note
+This script is modified by Sketch.
+
+### Change
+Modify layout.
+
 ## multi-command-if
 
 ### Author
@@ -448,7 +470,7 @@ MIT (https://github.com/wiiaboo/mpv-scripts/blob/master/LICENSE)
 Sketch
 
 ### Last Update
-2020-02-17
+2020-03-04
 
 ### License
 LGPLv3

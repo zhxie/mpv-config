@@ -946,6 +946,7 @@ mp.register_event("file-loaded", function()
         tools_menu = {
             {COMMAND, "Blackout", "`", "script-binding blackout/blackout", "", false},
             {COMMAND, "Histogram (SWDEC)", "Shift+H", "script-binding toggle-histogram", "", false},
+            {COMMAND, "Generate Thumbnails", "Ctrl+t", "script-binding generate-thumbnails", "", false},
             {COMMAND, "Locate...", "Shift+K", "script-message locate-current-file", "", false},
             {COMMAND, "Encode", "Shift+F", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
             {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false},
