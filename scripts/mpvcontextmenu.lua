@@ -545,17 +545,25 @@ end
 --[[ ************ CONFIG: start ************ ]] local menuList = {}
 
 local function refreshMenuList()
-    if #menuList.vidtrack_menu ~= trackCount("video") then
-        menuList.vidtrack_menu = vidTrackMenu()
+    if menuList.vidtrack_menu ~= nil then
+        if #menuList.vidtrack_menu ~= trackCount("video") then
+            menuList.vidtrack_menu = vidTrackMenu()
+        end
     end
-    if #menuList.audtrack_menu ~= trackCount("audio") then
-        menuList.audtrack_menu = audTrackMenu()
+    if menuList.audtrack_menu ~= nil then
+        if #menuList.audtrack_menu ~= trackCount("audio") then
+            menuList.audtrack_menu = audTrackMenu()
+        end
     end
-    if #menuList.subtrack_menu ~= trackCount("sub") then
-        menuList.subtrack_menu = subTrackMenu()
+    if menuList.subtrack_menu ~= nil then
+        if #menuList.subtrack_menu ~= trackCount("sub") then
+            menuList.subtrack_menu = subTrackMenu()
+        end
     end
-    if #menuList.playlist_menu - 5 ~= propNative("playlist/count") then
-        menuList.playlist_menu = playlistMenu()
+    if menuList.playlist_menu ~= nil then
+        if #menuList.playlist_menu - 5 ~= propNative("playlist/count") then
+            menuList.playlist_menu = playlistMenu()
+        end
     end
 end
 
@@ -625,6 +633,7 @@ mp.register_event(
                 {COMMAND, "Audio Tracks", "", "script-message add-audios", "", false},
                 {COMMAND, "Subtitles", "", "script-message add-subs", "", false}
             },
+
             playback_menu = {
                 {COMMAND, "Play/Pause", "Space", "cycle pause", "", false},
                 {COMMAND, "Stop", "Ctrl+Space", "stop", "", false},
@@ -936,6 +945,7 @@ mp.register_event(
                 {COMMAND, "+5%", "Ctrl+5", "add hue 5", "", false},
                 {COMMAND, "-5%", "Ctrl+Shift+%", "add hue -5", "", false}
             },
+
             screenshot_menu = {
                 {COMMAND, "Screenshot", "Ctrl+c", "async screenshot", "", false},
                 {COMMAND, "Screenshot (Video Only)", "Ctrl+Shift+C", "async screenshot video", "", false}
