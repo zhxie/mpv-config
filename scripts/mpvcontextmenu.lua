@@ -359,6 +359,12 @@ end
 
 local menuList = {}
 
+local function refreshMenuList()
+    if #menuList.vidtrack_menu ~= trackCount("video") then menuList.vidtrack_menu = vidTrackMenu() end
+    if #menuList.audtrack_menu ~= trackCount("audio") then menuList.audtrack_menu = audTrackMenu() end
+    if #menuList.subtrack_menu ~= trackCount("sub") then menuList.subtrack_menu = subTrackMenu() end
+end
+
 -- Format for object tables
 -- {Item Type, Label, Accelerator, Command, Item State, Item Disable, Repost Menu (Optional)}
 
@@ -978,9 +984,11 @@ end)
 local menuEngine = require "menu-engine"
 
 mp.register_script_message("mpv_context_menu_tk", function()
+    refreshMenuList()
     menuEngine.createMenu(menuList, "context_menu", -1, -1, "tk")
 end)
 
 mp.register_script_message("mpv_context_menu_gtk", function()
+    refreshMenuList()
     menuEngine.createMenu(menuList, "context_menu", -1, -1, "gtk")
 end)
