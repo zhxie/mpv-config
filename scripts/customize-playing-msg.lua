@@ -11,19 +11,13 @@ end
 local function replace_msg()
     if msg_showed ~= true then
         local output = ""
-        
+
         if mp.get_property_number("playlist-count") ~= 1 then
             output = output .. "[" .. mp.get_property("playlist-pos-1") .. "/" .. mp.get_property("playlist-count") .. "]"
         end
         output = output .. " " .. mp.get_property("media-title") .. " "
         if mp.get_property("hwdec-current") ~= "no" then
             output = output .. "[HW]"
-        end
-        if mp.get_property("deband") ~= "no" then
-            output = output .. "[HQ]"
-        end
-        if mp.get_property("video-sync") ~= "audio" then
-            output = output .. "[VSync]"
         end
         output = output .. "\n"
 
@@ -89,7 +83,7 @@ function formattime(clock_f)
     min = math.floor(clock_f / 60)
     clock_f = clock_f - 60 * min
     sec = math.floor(clock_f)
-    
+
     if hour < 10 then
         if hour == 0 then
             clock_s = "00"
@@ -130,7 +124,7 @@ function round(number)
         int = int + 1
     end
     return int
-end 
+end
 
 if replace_def_playing_msg then
     --mp.register_event("start-file", clear_msg)
