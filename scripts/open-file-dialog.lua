@@ -33,13 +33,75 @@ function open_file_dialog()
 		cancellable = false,
 	})
 	if was_ontop then mp.set_property_native("ontop", true) end
-	if (res.status ~= 0) then return end
+	if (res.status ~= 0) then
+		return nil
+	end
 
-	local first_file = true
-	for filename in string.gmatch(res.stdout, '[^\n]+') do
-		mp.commandv('loadfile', filename, first_file and 'replace' or 'append')
-		first_file = false
+	return res.stdout
+end
+
+function open_files()
+	local files = open_file_dialog()
+
+	if files ~= nil then
+		local first_file = true
+		for filename in string.gmatch(files, '[^\n]+') do
+			mp.commandv('loadfile', filename, first_file and 'replace' or 'append')
+			first_file = false
+		end
 	end
 end
 
-mp.add_key_binding('ctrl+o', 'open-file-dialog', open_file_dialog)
+function append_files()
+	local files = open_file_dialog()
+
+	if files ~= nil then
+		local first_file = true
+		for filename in string.gmatch(files, '[^\n]+') do
+			mp.commandv('loadfile', filename, 'append')
+			first_file = false
+		end
+	end
+end
+
+function add_videos()
+	local files = open_file_dialog()
+
+	if files ~= nil then
+		local first_file = true
+		for filename in string.gmatch(files, '[^\n]+') do
+			mp.commandv('video-add', filename)
+			first_file = false
+		end
+	end
+end
+
+function add_audios()
+	local files = open_file_dialog()
+
+	if files ~= nil then
+		local first_file = true
+		for filename in string.gmatch(files, '[^\n]+') do
+			mp.commandv('audio-add', filename)
+			first_file = false
+		end
+	end
+end
+
+function add_subs()
+	local files = open_file_dialog()
+
+	if files ~= nil then
+		local first_file = true
+		for filename in string.gmatch(files, '[^\n]+') do
+			mp.commandv('sub-add', filename)
+			first_file = false
+		end
+	end
+end
+
+mp.register_script_message('open-files', open_files)
+mp.register_script_message('append-files', append_files)
+mp.register_script_message('add-videos', add_videos)
+mp.register_script_message('add-audios', add_audios)
+mp.register_script_message('add-subs', add_subs)

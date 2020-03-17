@@ -389,7 +389,8 @@ menuList = {}
 mp.register_event("file-loaded", function()
     menuList = {
         context_menu = {
-            {COMMAND, "Open...", "Ctrl+o", "script-binding open-file-dialog", "", false},
+            {COMMAND, "Open Files...", "Ctrl+o", "script-message open-files", "", false},
+            {CASCADE, "Open", "add_menu", "", "", false},
             {SEP},
             {CASCADE, "Playback", "playback_menu", "", "", false},
             {CASCADE, "Video", "video_menu", "", "", false},
@@ -415,6 +416,13 @@ mp.register_event("file-loaded", function()
             {SEP},
             {COMMAND, "Dismiss Menu", "", "", "", false},
             {COMMAND, "Quit", "", "quit-watch-later", "", false},
+        },
+
+
+        add_menu = {
+            {COMMAND, "Video Tracks", "", "script-message add-videos", "", false},
+            {COMMAND, "Audio Tracks", "", "script-message add-audios", "", false},
+            {COMMAND, "Subtitles", "", "script-message add-subs", "", false},
         },
 
         playback_menu = {
