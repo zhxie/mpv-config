@@ -144,7 +144,7 @@ This script is modified by Sketch.
 
 ### Change
 
-Use lavfi instead of crop to be more robustic for easyencode.
+Use lavfi instead of crop to be more robust.
 
 ## customize-playing-msg
 
@@ -155,20 +155,6 @@ Sketch
 ### Last Update
 
 2017-10-03
-
-### License
-
-LGPLv3
-
-## easyencode
-
-### Author
-
-Sketch
-
-### Last Update
-
-2018-10-02
 
 ### License
 
@@ -206,32 +192,6 @@ https://github.com/dya-tel/mpv-scripts/blob/master/fuzzydir.lua
 
 MIT (https://github.com/dya-tel/mpv-scripts/blob/master/LICENSE)
 
-## histogram
-
-### Author
-
-dutuur
-
-### Repository
-
-https://github.com/detuur/mpv-scripts/blob/master/histogram.lua
-
-### Last Update
-
-2020-01-27
-
-### Note
-
-This script is modified by Sketch.
-
-### Change
-
-Fix histogram may not be attached if no filter exists
-
-### License
-
-MIT (https://github.com/detuur/mpv-scripts/blob/master/LICENSE)
-
 ## libass_sub_selector
 
 ### Author
@@ -262,7 +222,7 @@ https://github.com/nimatrueway/mpv-locatefile-lua-script/blob/master/locatefile.
 
 ### Last Update
 
-2019-08-15
+2020-04-30
 
 ## mediainfo
 
@@ -370,20 +330,6 @@ https://github.com/VideoPlayerCode/mpv-tools/blob/master/scripts/multi-command-i
 
 Apache License v2 (http://www.apache.org/licenses/LICENSE-2.0)
 
-## multi-sub
-
-### Author
-
-Sketch
-
-### Last Update
-
-2019-03-10
-
-### License
-
-LGPLv3
-
 ## ontop-playback
 
 ### Repository
@@ -466,7 +412,7 @@ This script is modified by Sketch.
 
 ### Change
 
-Instead of set_osd_ass, use osd_message to be more robustic, especially with easyencode and stats.
+Instead of set_osd_ass, use osd_message to be more robust, especially with stats.
 
 ## quick-scale
 
@@ -504,42 +450,6 @@ https://github.com/rossy/mpv-repl/blob/master/repl.lua
 
 ISC (https://github.com/rossy/mpv-repl/blob/master/COPYING)
 
-## SmartCopyPaste
-
-### Author
-
-Eisa01
-
-### Repository
-
-https://github.com/Eisa01/mpv-scripts#smartcopypaste-script
-
-### Last Update
-
-2020-01-21
-
-### License
-
-MIT (https://github.com/Eisa01/mpv-scripts/blob/master/LICENSE)
-
-## speed-transition
-
-### Author
-
-zenyd
-
-### Repository
-
-https://github.com/zenyd/mpv-scripts/blob/master/speed-transition.lua
-
-### Last Update
-
-2019-03-06
-
-### License
-
-GPLv3 (https://github.com/zenyd/mpv-scripts/blob/master/LICENSE)
-
 ## stats
 
 ### Author
@@ -566,21 +476,7 @@ This script is modified by Sketch.
 
 Display more information and change layout.
 
-Instead of set_osd_ass, use osd_message to be more robustic, especially with easyencode and playlistmanager.
-
-## timelogger
-
-### Author
-
-Sketch
-
-### Last Update
-
-2018-10-03
-
-### License
-
-LGPLv3
+Instead of set_osd_ass, use osd_message to be more robust, especially with playlistmanager.
 
 ## zones
 
@@ -608,7 +504,7 @@ Sketch
 
 ### Last Update
 
-2020-03-17
+2020-09-21
 
 ### License
 

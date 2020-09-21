@@ -7,7 +7,7 @@ function mediainfo()
     if was_ontop then mp.set_property_native("ontop", false) end
     local was_pause = mp.get_property_native("pause")
     if not was_pause then mp.set_property_native("pause", true) end
-    
+
     local path = mp.get_property("path")
     --local file = mp.get_property_osd("filename")..".txt"
 	local res = utils.subprocess({

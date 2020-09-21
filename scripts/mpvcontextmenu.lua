@@ -1329,10 +1329,8 @@ mp.register_event(
 
             tools_menu = {
                 {COMMAND, "Blackout", "`", "script-binding blackout/blackout", "", false},
-                {COMMAND, "Histogram", "Ctrl+h", "set hwdec no ; script-binding toggle-histogram", "", false},
                 {COMMAND, "Generate Thumbnails", "Ctrl+t", "script-binding generate-thumbnails", "", false},
                 {COMMAND, "Locate...", "Ctrl+l", "script-message locate-current-file", "", false},
-                {COMMAND, "Encode", "Ctrl+e", "script-binding stats/display-stats-toggle-off ; script-message playlistmanager toggle off ; script-message easyencode toggle", "", false},
                 {COMMAND, "Console", "Shift+~", "script-binding console/enable", "", false}
             }
         }

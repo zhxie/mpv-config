@@ -1,6 +1,6 @@
 local settings = {
     required_ver = "mpv 0.32.0-13-g77a74d9eb5",
-    update_date = "2020-03-17",
+    update_date = "2020-09-21",
     mpv_prefix = "{\\fs10}{\\bord0.8}{\\b1}",
     mpv_suffix = "{\\b0}",
     warn_prefix = {
@@ -37,7 +37,7 @@ function show_info()
     output = attach_ascii(output, "    : -ssssssssohs`-```````:``/oossssssosos``   ")
     output = attach_ascii(output, "     ` -sssssssssshhy/.:::.+soosssssssssoo-:    ")
     output = attach_ascii(output, "      :  yosssssssssssoooosssssssssossshy-:     ")
-    output = attach_ascii(output, "       :  `sossssssssssssssssssssssssho``-      " .. attach_ascii_tail("{\\b1}mpv{\\b0} has accompanied you waching for " .. total_time() .. ".", 55, 10))
+    output = attach_ascii(output, "       :  `sossssssssssssssssssssssssho``-      ")
     output = attach_ascii(output, "         :  -+osssssssssssssssssssohy--`        " .. attach_ascii_tail(settings.update_date, 55))
     output = attach_ascii(output, "           :`  `/sooosssssssoooho+` :-          ")
     output = attach_ascii(output, "              ::-   `:.////.:`  `.`             ")
@@ -69,68 +69,4 @@ function attach_ascii_tail(word, length, escape)
     return str .. word
 end
 
--- timelogger related --
--- To set another path for the logfile, please uncomment one of the linues below
--- local logpath = "C:\Users\user\AppData\Roaming\mpv\time.log"
--- local logpath = "/home/user/.config/mpv/time.log"
-
--- Set to true to disply the time in days, hours, min and sec (instead of hours, min, sec)
-local timeformatindays = false
-
--- automaticly sets the logpath
-function detect_logpath()
-    if (logpath ~= nil) or (logpath == "") then return end
-    logpath = utils.join_path(mp.find_config_file("."), "time.log")
-end
-
--- helper for time_format returns reduced time, string
-function time_format_helper(time, divider, suffix)
-    if time >= divider then
-        if math.floor(time / divider) <10 then
-            return math.mod(time, divider), ("0" .. math.floor(time / divider) .. suffix .. "")
-        else
-            return math.mod(time, divider), (math.floor(time / divider) .. suffix .. "")
-        end
-    end
-    return time, ""
-end
-
--- transforms the time from s to (days), hours, min, sec
-function time_format(time)
-    local s = ""
-    local start = 1
-    local times = {86400, 3600, 60, 1}
-    local suffixes = {":", ":", ":", ""}
-    if not timeformatindays then start = 2 end
-    for i = start, 4, 1 do
-        time, string = time_format_helper(time, times[i], suffixes[i])
-        s = s .. string
-    end
-    return s
-end
-
--- checks if there are file problems
-function file_exists(path)
-    local f, err = io.open(path, "a")
-    if f == nil then
-        mp.osd_message("timelogger - Error opening file, error: " .. err)
-        mp.msg.error("Error opening file, error: " .. err)
-        return false
-    end
-    f:close()
-    return true
-end
-
--- displays total time
-function total_time()
-    if not file_exists then return nil end
-    local total = 0
-    for line in io.lines(logpath) do
-        local s1, s2 = string.match(line, "(.-)s,(.*)") -- non-greedy matching in lua is "-"
-        total = total + tonumber(s1)
-    end
-    return time_format(total)
-end
-
-detect_logpath()
 mp.add_key_binding('i', 'mpv-update', show_info)
