@@ -80,6 +80,13 @@ local o = {
 }
 options.read_options(o)
 
+local record = {
+    mistimed_frame_count = 0,
+    vo_delayed_frame_count = 0,
+    decoder_frame_drop_count = 0,
+    frame_drop_count = 0,
+}
+
 local format = string.format
 local max = math.max
 local min = math.min
@@ -266,6 +273,41 @@ local function append_property(s, prop, attr, excluded)
     return append(s, ret, attr)
 end
 
+local function append_property_hl(s, prop, comp, attr, excluded)
+    excluded = excluded or {[""] = true}
+    local str = mp.get_property_osd(prop)
+    if not str or excluded[str] then
+        if o.debug then
+            print("No value for property: " .. prop)
+        end
+        return false
+    end
+
+    if not str then
+        return false
+    end
+    attr.prefix_sep = attr.prefix_sep or o.prefix_sep
+    attr.indent = attr.indent or o.indent
+    attr.nl = attr.nl or o.nl
+    attr.suffix = attr.suffix or ""
+    attr.prefix = attr.prefix or ""
+    attr.no_prefix_markup = attr.no_prefix_markup or false
+    attr.prefix = attr.no_prefix_markup and attr.prefix or b(attr.prefix)
+    if mp.get_property_number(prop, 0) == comp or mp.get_property_number(prop, 0) == 0 then
+        s[#s+1] = format("%s%s%s%s%s%s", attr.nl, attr.indent,
+                        attr.prefix, attr.prefix_sep, no_ASS(str), attr.suffix)
+    else
+        if mp.get_property_number(prop, 0) - comp > 0.15 * mp.get_property_number("container-fps", 0) then
+            s[#s+1] = format("%s%s%s%s%s%s", attr.nl, attr.indent,
+                        attr.prefix .. "{\\bord0.5}{\\3c&H0000FF&}", attr.prefix_sep, no_ASS(str), "{\\bord0.8}{\\3c&H%s&}" .. attr.suffix)
+        else
+            s[#s+1] = format("%s%s%s%s%s%s", attr.nl, attr.indent,
+                        attr.prefix .. "{\\bord0.5}{\\3c&H00DDDD&}", attr.prefix_sep, no_ASS(str), "{\\bord0.8}{\\3c&H%s&}" .. attr.suffix)
+        end
+    end
+    return true
+end
+
 
 
 local function append_perfdata(s, dedicated_page)
@@ -394,8 +436,10 @@ local function append_display_sync(s)
                         {prefix="DS:" .. o.prefix_sep .. " - / ", prefix_sep=""})
     end
 
-    append_property(s, "mistimed-frame-count", {prefix="Mistimed:", nl=""})
-    append_property(s, "vo-delayed-frame-count", {prefix="Delayed:", nl=""})
+    append_property_hl(s, "mistimed-frame-count", record.mistimed_frame_count, {prefix="Mistimed:", nl=""})
+    append_property_hl(s, "vo-delayed-frame-count", record.vo_delayed_frame_count, {prefix="Delayed:", nl=""})
+    record.mistimed_frame_count = mp.get_property_number("mistimed-frame-count")
+    record.vo_delayed_frame_count = mp.get_property_number("vo-delayed-frame-count")
 
     -- As we need to plot some graphs we print jitter and ratio on their own lines
     if not display_timer.oneshot and (o.plot_vsync_ratio or o.plot_vsync_jitter) and o.use_ass then
@@ -520,9 +564,11 @@ local function add_video(s)
                          no_prefix_markup=true, suffix=")"}, {no=true, [""]=true})
     end
     append_property(s, "avsync", {prefix="A-V:"})
-    if append_property(s, compat("decoder-frame-drop-count"),
+    if append_property_hl(s, compat("decoder-frame-drop-count"), record.decoder_frame_drop_count,
                        {prefix="Dropped Frames:", suffix=" (decoder)"}) then
-        append_property(s, compat("frame-drop-count"), {suffix=" (output)", nl="", indent=""})
+        append_property_hl(s, compat("frame-drop-count"), record.frame_drop_count, {suffix=" (output)", nl="", indent=""})
+        record.decoder_frame_drop_count = mp.get_property_number("decoder-frame-drop-count")
+        record.frame_drop_count = mp.get_property_number("frame-drop-count")
     end
     if append_property(s, "display-fps", {prefix="Display FPS:", suffix=" (specified)"}) then
         append_property(s, "estimated-display-fps",
