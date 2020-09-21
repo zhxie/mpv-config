@@ -426,7 +426,7 @@ local function playlistMenu()
             COMMAND,
             "Playlist",
             "l",
-            "script-binding stats/display-stats-toggle-off ; script-message easyencode toggle-off ; script-message playlistmanager toggle",
+            "script-message playlistmanager show playlist toggle",
             "",
             false
         },
@@ -618,7 +618,7 @@ mp.register_event(
                 {CHECK, "Always on Top", "Shift+T", "cycle ontop", function() return propNative("ontop") end, false},
                 {SEP},
                 {CASCADE, "Playlist", "playlist_menu", "", "", function() return enablePlaylist() end},
-                {COMMAND, "Stats", "Tab", "script-message easyencode toggle-off ; script-message playlistmanager toggle off ; script-binding stats/display-stats-toggle", "", false},
+                {COMMAND, "Stats", "Tab", "script-binding stats/display-stats-toggle", "", false},
                 {COMMAND, "MediaInfo", "Shift+Tab", "script-binding mediainfo", "", false},
                 {CASCADE, "Tools", "tools_menu", "", "", false},
                 {SEP},

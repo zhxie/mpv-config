@@ -396,23 +396,13 @@ jonniek
 
 https://github.com/jonniek/mpv-playlistmanager
 
-### Files (Last Update)
+### Last Update
 
-playlistmanager.lua (2020-01-04)
-
-titleresolver.lua (2019-07-27)
+2020-06-28
 
 ### License
 
 The Unlicense (https://github.com/jonniek/mpv-playlistmanager/blob/master/LICENSE)
-
-### Note
-
-This script is modified by Sketch.
-
-### Change
-
-Instead of set_osd_ass, use osd_message to be more robust, especially with stats.
 
 ## quick-scale
 
@@ -452,21 +442,13 @@ ISC (https://github.com/rossy/mpv-repl/blob/master/COPYING)
 
 ## stats
 
-### Author
-
-Argon-
-
 ### Repository
 
-https://github.com/Argon-/mpv-stats/blob/master/stats.lua
+https://github.com/mpv-player/mpv/blob/master/player/lua/stats.lua
 
 ### Last Update
 
-2019-12-24
-
-### License
-
-LGPLv2.1 (https://github.com/Argon-/mpv-stats/blob/master/LICENSE)
+2020-08-03
 
 ### Note
 
@@ -475,8 +457,6 @@ This script is modified by Sketch.
 ### Change
 
 Display more information and change layout.
-
-Instead of set_osd_ass, use osd_message to be more robust, especially with playlistmanager.
 
 ## zones
 
